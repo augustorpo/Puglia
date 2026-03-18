@@ -68,6 +68,189 @@ function FlightBlock({flight,color}){return(<div><div style={{fontFamily:"'Fredo
 
 function InfoLine({icon,text}){return(<div style={{fontFamily:"'Nunito',sans-serif",fontSize:"14px",color:"#444",fontWeight:600}}><span style={{marginRight:"8px"}}>{icon}</span>{text}</div>);}
 
-const TABS=[{id:"planner",label:"Daily Plan",icon:"📅"},{id:"restrepo",label:"Restrepo",icon:"🌶️"},{id:"ricardo",label:"Ricardo",icon:"🦜"}];
+const TRULLO_PICS = [
+  "https://cdn.krossbooking.com/hellogroup/images/3/168/17447185887678.jpg",
+  "https://cdn.krossbooking.com/hellogroup/images/3/168/17484117069601.jpg",
+  "https://cdn.krossbooking.com/hellogroup/images/3/168/15647426769789.jpg",
+  "https://cdn.krossbooking.com/hellogroup/images/3/168/17217283671446.jpg",
+  "https://cdn.krossbooking.com/hellogroup/images/3/168/17217281127495.jpg",
+  "https://cdn.krossbooking.com/hellogroup/images/3/168/17447185467940.jpg",
+  "https://cdn.krossbooking.com/hellogroup/images/3/168/17447185448088.jpg",
+  "https://cdn.krossbooking.com/hellogroup/images/3/168/17484118072474.jpg",
+  "https://cdn.krossbooking.com/hellogroup/images/3/168/17484118114550.jpg",
+  "https://cdn.krossbooking.com/hellogroup/images/3/168/17484117962230.jpg",
+  "https://cdn.krossbooking.com/hellogroup/images/3/168/15647425914640.jpg",
+  "https://cdn.krossbooking.com/hellogroup/images/3/168/15647425904631.jpg",
+  "https://cdn.krossbooking.com/hellogroup/images/3/168/15647425995903.jpg",
+  "https://cdn.krossbooking.com/hellogroup/images/3/168/15647426757142.jpg",
+  "https://cdn.krossbooking.com/hellogroup/images/3/168/15647426936496.jpg",
+  "https://cdn.krossbooking.com/hellogroup/images/3/168/17217283974310.jpg",
+  "https://cdn.krossbooking.com/hellogroup/images/3/168/15647426893239.jpg",
+  "https://cdn.krossbooking.com/hellogroup/images/3/168/15647426855848.jpg",
+  "https://cdn.krossbooking.com/hellogroup/images/3/168/15647427114599.jpg",
+  "https://cdn.krossbooking.com/hellogroup/images/3/168/15647427069298.jpg",
+  "https://cdn.krossbooking.com/hellogroup/images/3/168/17216450666284.jpg",
+  "https://cdn.krossbooking.com/hellogroup/images/3/168/15647426069735.jpg",
+  "https://cdn.krossbooking.com/hellogroup/images/3/168/17217282283909.jpg",
+  "https://cdn.krossbooking.com/hellogroup/images/3/168/17442905641599.jpg",
+];
 
-export default function App(){const[tab,setTab]=useState("planner");const[fadeIn,setFadeIn]=useState(true);const switchTab=(id)=>{setFadeIn(false);setTimeout(()=>{setTab(id);setFadeIn(true);window.scrollTo({top:0,behavior:"smooth"});},150);};return(<div style={{minHeight:"100vh",background:"#F0F7FF",fontFamily:"'Nunito',sans-serif"}}><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/><style>{`*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}body{background:#F0F7FF}.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);border-top:2px solid #E8E8E8;display:flex;justify-content:space-around;padding:6px 4px env(safe-area-inset-bottom,14px)}.bottom-nav button{display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;color:#AAA;font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;cursor:pointer;padding:8px 20px;border-radius:14px;transition:all 0.2s}.bottom-nav button.active{color:#FF6B35;background:#FF6B3510}.bottom-nav .nav-icon{font-size:24px}.content{max-width:600px;margin:0 auto;padding:0 16px 100px;transition:all 0.3s}.content.fade-out{opacity:0;transform:translateY(8px)}`}</style><HeroSection/><div className={"content"+(fadeIn?"":" fade-out")}>{tab==="planner"&&<DailyPlannerTab/>}{tab==="restrepo"&&<FamilyTab family="restrepo"/>}{tab==="ricardo"&&<FamilyTab family="ricardo"/>}</div><nav className="bottom-nav">{TABS.map(t=>(<button key={t.id} className={tab===t.id?"active":""} onClick={()=>switchTab(t.id)}><span className="nav-icon">{t.icon}</span>{t.label}</button>))}</nav><div style={{textAlign:"center",padding:"20px 16px 100px",fontFamily:"'Nunito',sans-serif",fontSize:"13px",color:"#CCC",fontWeight:700}}>☀️ Puglia 2026 · Restrepo × Ricardo · Made with 🍕</div></div>);}
+function TrulloTab() {
+  const [photoIdx, setPhotoIdx] = useState(0);
+  const nextPhoto = () => setPhotoIdx((photoIdx + 1) % TRULLO_PICS.length);
+  const prevPhoto = () => setPhotoIdx((photoIdx - 1 + TRULLO_PICS.length) % TRULLO_PICS.length);
+
+  const rooms = [
+    { name: "Bedroom 1 (Trullo)", icon: "🛏️", desc: "Queen bed · En-suite bathroom", for: "Restrepo: Augusto & Fabi" },
+    { name: "Bedroom 2 (Trullo)", icon: "🛏️", desc: "Twin beds", for: "Kids / flexible" },
+    { name: "Bedroom 3 (Cottage)", icon: "🛏️", desc: "Queen bed + crib available", for: "Ricardo: El Titi & Liliana" },
+    { name: "Bedroom 4 (Cottage)", icon: "🛏️", desc: "Bunk beds", for: "Matilda + flex" },
+  ];
+
+  const amenities = [
+    { icon: "🏊", text: "Private pool (8×4m)" },
+    { icon: "🌊", text: "Panoramic sea view" },
+    { icon: "❄️", text: "A/C in all rooms" },
+    { icon: "📶", text: "Wi-Fi" },
+    { icon: "🔥", text: "BBQ area" },
+    { icon: "🍳", text: "2 full kitchens" },
+    { icon: "🧺", text: "Washer" },
+    { icon: "🅿️", text: "Free private parking" },
+    { icon: "📺", text: "TV" },
+    { icon: "🍽️", text: "Outdoor dining (8 pax)" },
+    { icon: "👶", text: "Crib & high chair" },
+    { icon: "🐾", text: "Pet friendly (on request)" },
+  ];
+
+  const distances = [
+    { icon: "🏖️", text: "Beach", dist: "15 km" },
+    { icon: "🍝", text: "Restaurant", dist: "4 km" },
+    { icon: "🛒", text: "Supermarket", dist: "8 km" },
+    { icon: "✈️", text: "Bari Airport", dist: "65 km" },
+    { icon: "⛽", text: "Petrol station", dist: "5.5 km" },
+    { icon: "🏥", text: "Hospital", dist: "10 km" },
+  ];
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "18px" }}>
+      {/* Photo carousel */}
+      <div style={{ position: "relative", borderRadius: "22px", overflow: "hidden", height: "280px", background: "#DDD" }}>
+        <img src={TRULLO_PICS[photoIdx]} alt="Trullo" style={{ width: "100%", height: "100%", objectFit: "cover", transition: "opacity 0.3s" }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.5))" }} />
+        <button onClick={prevPhoto} style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", background: "rgba(255,255,255,0.85)", border: "none", borderRadius: "50%", width: "40px", height: "40px", fontSize: "18px", cursor: "pointer", fontWeight: 700 }}>‹</button>
+        <button onClick={nextPhoto} style={{ position: "absolute", right: "12px", top: "50%", transform: "translateY(-50%)", background: "rgba(255,255,255,0.85)", border: "none", borderRadius: "50%", width: "40px", height: "40px", fontSize: "18px", cursor: "pointer", fontWeight: 700 }}>›</button>
+        <div style={{ position: "absolute", bottom: "16px", left: "18px", right: "18px", zIndex: 2 }}>
+          <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "22px", color: "white", fontWeight: 600, textShadow: "0 2px 8px rgba(0,0,0,0.4)" }}>Trullo Oceanoblu</div>
+          <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "13px", color: "rgba(255,255,255,0.85)", fontWeight: 700 }}>📸 {photoIdx + 1} / {TRULLO_PICS.length} · Tap arrows to browse</div>
+        </div>
+      </div>
+
+      {/* Photo thumbnails */}
+      <div style={{ display: "flex", gap: "8px", overflowX: "auto", paddingBottom: "4px", WebkitOverflowScrolling: "touch" }}>
+        {TRULLO_PICS.slice(0, 12).map((p, i) => (
+          <img key={i} src={p} alt="" onClick={() => setPhotoIdx(i)}
+            style={{ width: "70px", height: "50px", objectFit: "cover", borderRadius: "10px", cursor: "pointer", border: photoIdx === i ? "3px solid #FF6B35" : "3px solid transparent", opacity: photoIdx === i ? 1 : 0.6, transition: "all 0.2s", flexShrink: 0 }} />
+        ))}
+      </div>
+
+      {/* Property overview */}
+      <div style={{ background: "linear-gradient(135deg, #FF6B35, #FF9F1C)", borderRadius: "22px", padding: "24px", color: "white", position: "relative", overflow: "hidden" }}>
+        <div style={{ position: "absolute", top: "-20px", right: "-10px", fontSize: "80px", opacity: 0.12 }}>🏡</div>
+        <div style={{ position: "relative", zIndex: 2 }}>
+          <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "24px", fontWeight: 600 }}>Panoramic Trullo Blue Ocean View</div>
+          <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "14px", opacity: 0.9, marginTop: "4px" }}>📍 Contrada Sant'Oceano, Monopoli, Puglia</div>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginTop: "14px" }}>
+            {["👥 8 guests", "🛏️ 4 bedrooms", "🚿 3 bathrooms", "📐 200 m²", "🏊 Pool 8×4m"].map((t, i) => (
+              <span key={i} style={{ background: "rgba(255,255,255,0.2)", borderRadius: "20px", padding: "5px 14px", fontSize: "13px", fontFamily: "'Nunito',sans-serif", fontWeight: 700 }}>{t}</span>
+            ))}
+          </div>
+          <div style={{ marginTop: "14px", fontFamily: "'Nunito',sans-serif", fontSize: "14px", fontWeight: 700 }}>
+            🗓️ Jul 23 → Aug 1 · 9 nights · €6,525 (split between families)
+          </div>
+          <div style={{ marginTop: "6px", fontFamily: "'Nunito',sans-serif", fontSize: "13px", opacity: 0.85 }}>
+            🕓 Check-in: 4–8 PM · Check-out: 10 AM
+          </div>
+        </div>
+      </div>
+
+      {/* Description */}
+      <FunCard title="🏡 ABOUT THE PROPERTY" color="#FF6B35">
+        <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "15px", color: "#333", lineHeight: 1.7, fontWeight: 500 }}>
+          Set on a panoramic hilltop between Conversano, Polignano a Mare and Monopoli, this property features a restored <strong>ancient trullo</strong> and a small <strong>farmhouse</strong> — two independent units on the same grounds. Perfect for two families!
+        </div>
+        <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "15px", color: "#333", lineHeight: 1.7, fontWeight: 500, marginTop: "12px" }}>
+          Surrounded by dry stone walls, red earth and ancient olive trees. The pool sits on a higher level with <strong>panoramic valley-to-sea views</strong>, shielded by hedges for total privacy.
+        </div>
+        <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "15px", color: "#333", lineHeight: 1.7, fontWeight: 500, marginTop: "12px" }}>
+          Outside: shaded <strong>pergola dining for 8</strong>, gazebo relaxation area, BBQ, and the stunning pool. Both units have A/C and contemporary furnishings.
+        </div>
+      </FunCard>
+
+      {/* Two units layout */}
+      <FunCard title="🏠 TWO UNITS — PERFECT FOR US!" color="#7209B7">
+        <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+          <div style={{ background: "#FF6B3510", borderRadius: "16px", padding: "18px", border: "1px solid #FF6B3520" }}>
+            <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "16px", color: "#FF6B35", fontWeight: 600 }}>🌶️ The Trullo (Restrepo)</div>
+            <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "14px", color: "#444", marginTop: "6px", lineHeight: 1.6 }}>
+              Living area with sofa & dining table · Kitchen · Queen bedroom with en-suite · Twin bedroom · Extra bathroom with shower
+            </div>
+          </div>
+          <div style={{ background: "#00B4D810", borderRadius: "16px", padding: "18px", border: "1px solid #00B4D820" }}>
+            <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "16px", color: "#00B4D8", fontWeight: 600 }}>🦜 The Cottage (Ricardo)</div>
+            <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "14px", color: "#444", marginTop: "6px", lineHeight: 1.6 }}>
+              Bright kitchen with dining table · Queen bedroom · Bunk bed room · Bathroom with shower
+            </div>
+          </div>
+        </div>
+      </FunCard>
+
+      {/* Sleeping arrangements */}
+      <FunCard title="🛏️ SLEEPING ARRANGEMENTS" color="#E76F51">
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
+          {rooms.map((r, i) => (
+            <div key={i} style={{ background: "#FAF6F1", borderRadius: "16px", padding: "16px", textAlign: "center" }}>
+              <div style={{ fontSize: "28px", marginBottom: "4px" }}>{r.icon}</div>
+              <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "14px", color: "#1A1A2E", fontWeight: 600 }}>{r.name}</div>
+              <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "12px", color: "#666", marginTop: "4px" }}>{r.desc}</div>
+              <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "11px", color: "#FF6B35", fontWeight: 700, marginTop: "6px" }}>{r.for}</div>
+            </div>
+          ))}
+        </div>
+      </FunCard>
+
+      {/* Amenities */}
+      <FunCard title="✨ AMENITIES" color="#10B981">
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+          {amenities.map((a, i) => (
+            <div key={i} style={{ display: "flex", alignItems: "center", gap: "10px", padding: "10px 12px", background: "#F0FFF4", borderRadius: "12px" }}>
+              <span style={{ fontSize: "20px" }}>{a.icon}</span>
+              <span style={{ fontFamily: "'Nunito',sans-serif", fontSize: "14px", color: "#333", fontWeight: 600 }}>{a.text}</span>
+            </div>
+          ))}
+        </div>
+      </FunCard>
+
+      {/* Distances */}
+      <FunCard title="📍 DISTANCES" color="#0077B6">
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
+          {distances.map((d, i) => (
+            <div key={i} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "10px 14px", background: "#E3F2FD", borderRadius: "12px" }}>
+              <span style={{ fontFamily: "'Nunito',sans-serif", fontSize: "14px", color: "#333", fontWeight: 600 }}>{d.icon} {d.text}</span>
+              <span style={{ fontFamily: "'Nunito',sans-serif", fontSize: "14px", color: "#0077B6", fontWeight: 800 }}>{d.dist}</span>
+            </div>
+          ))}
+        </div>
+      </FunCard>
+
+      {/* Link to listing */}
+      <a href="https://book.helloapulia.com/en/trullo-oceano-blu-sea-view-trulli-puglia" target="_blank" rel="noopener noreferrer"
+        style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", background: "linear-gradient(135deg, #FF6B35, #FF9F1C)", borderRadius: "18px", padding: "16px", color: "white", fontSize: "16px", fontFamily: "'Fredoka',sans-serif", fontWeight: 600, textDecoration: "none", boxShadow: "0 4px 20px rgba(255,107,53,0.3)" }}>
+        🔗 View Full Listing on HelloApulia
+      </a>
+    </div>
+  );
+}
+
+const TABS=[{id:"planner",label:"Daily Plan",icon:"📅"},{id:"trullo",label:"Our Trullo",icon:"🏡"},{id:"restrepo",label:"Restrepo",icon:"🌶️"},{id:"ricardo",label:"Ricardo",icon:"🦜"}];
+
+export default function App(){const[tab,setTab]=useState("planner");const[fadeIn,setFadeIn]=useState(true);const switchTab=(id)=>{setFadeIn(false);setTimeout(()=>{setTab(id);setFadeIn(true);window.scrollTo({top:0,behavior:"smooth"});},150);};return(<div style={{minHeight:"100vh",background:"#F0F7FF",fontFamily:"'Nunito',sans-serif"}}><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/><style>{`*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}body{background:#F0F7FF}.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);border-top:2px solid #E8E8E8;display:flex;justify-content:space-around;padding:6px 4px env(safe-area-inset-bottom,14px)}.bottom-nav button{display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;color:#AAA;font-family:'Nunito',sans-serif;font-size:11px;font-weight:800;cursor:pointer;padding:8px 20px;border-radius:14px;transition:all 0.2s}.bottom-nav button.active{color:#FF6B35;background:#FF6B3510}.bottom-nav .nav-icon{font-size:24px}.content{max-width:600px;margin:0 auto;padding:0 16px 100px;transition:all 0.3s}.content.fade-out{opacity:0;transform:translateY(8px)}`}</style><HeroSection/><div className={"content"+(fadeIn?"":" fade-out")}>{tab==="planner"&&<DailyPlannerTab/>}{tab==="trullo"&&<TrulloTab/>}{tab==="restrepo"&&<FamilyTab family="restrepo"/>}{tab==="ricardo"&&<FamilyTab family="ricardo"/>}</div><nav className="bottom-nav">{TABS.map(t=>(<button key={t.id} className={tab===t.id?"active":""} onClick={()=>switchTab(t.id)}><span className="nav-icon">{t.icon}</span>{t.label}</button>))}</nav><div style={{textAlign:"center",padding:"20px 16px 100px",fontFamily:"'Nunito',sans-serif",fontSize:"13px",color:"#CCC",fontWeight:700}}>☀️ Puglia 2026 · Restrepo × Ricardo · Made with 🍕</div></div>);}
