@@ -215,7 +215,6 @@ function TrulloTab() {
             </div>
           ))}
         </div>
-        <div style={{ marginTop: "12px", textAlign: "center", fontFamily: "'Nunito',sans-serif", fontSize: "14px", color: "#888", fontWeight: 700, fontStyle: "italic" }}>🎲 We'll pick rooms when we arrive!</div>
       </FunCard>
 
       {/* Amenities */}
