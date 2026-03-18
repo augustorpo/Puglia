@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const PHOTOS = {
   hero: "https://cdn.krossbooking.com/hellogroup/images/3/168/17447185887678.jpg",
@@ -58,7 +58,86 @@ function TrulloCard(){return(<div style={{background:"linear-gradient(135deg,#FF
 
 function DayCard({d,expanded,onToggle}){const photo=PHOTOS[DAY_PHOTOS[d.short]]||PHOTOS.puglia;return(<div onClick={onToggle} style={{borderRadius:"22px",overflow:"hidden",cursor:"pointer",transition:"all 0.3s",boxShadow:expanded?"0 12px 40px rgba(0,0,0,0.15)":"0 4px 15px rgba(0,0,0,0.06)",background:"white",transform:expanded?"scale(1.01)":"scale(1)"}}><PhotoBg src={photo} fallback={d.gradient} style={{height:expanded?"180px":"110px",transition:"height 0.3s"}}><div style={{position:"absolute",inset:0,background:"linear-gradient(135deg,rgba(0,0,0,0.5) 0%,rgba(0,0,0,0.1) 100%)"}}/><div style={{position:"relative",zIndex:2,height:"100%",display:"flex",justifyContent:"space-between",alignItems:"flex-end",padding:"16px 18px"}}><div><div style={{fontFamily:"'Nunito',sans-serif",fontSize:"12px",fontWeight:800,color:"rgba(255,255,255,0.8)",textTransform:"uppercase",letterSpacing:"2px"}}>{d.day}</div><div style={{fontFamily:"'Fredoka',sans-serif",fontSize:"24px",color:"white",fontWeight:600,lineHeight:1.1}}>{d.date}</div></div><div style={{display:"flex",flexDirection:"column",alignItems:"flex-end",gap:"6px"}}><span style={{fontSize:"28px"}}>{d.whoIcon}</span><span style={{background:"rgba(255,255,255,0.25)",backdropFilter:"blur(8px)",borderRadius:"20px",padding:"3px 12px",fontSize:"11px",color:"white",fontFamily:"'Nunito',sans-serif",fontWeight:800}}>{d.who}</span></div></div></PhotoBg><div style={{padding:"16px 18px",borderBottom:expanded?"1px solid #F0F0F0":"none"}}><div style={{display:"flex",alignItems:"center",gap:"10px"}}><span style={{fontSize:"26px"}}>{d.actIcon}</span><div><div style={{fontFamily:"'Fredoka',sans-serif",fontSize:"17px",color:"#1A1A2E",fontWeight:600}}>{d.activity}</div>{d.notes&&<div style={{fontFamily:"'Nunito',sans-serif",fontSize:"13px",color:"#888",fontWeight:600,marginTop:"2px"}}>{d.notes}</div>}</div></div></div>{expanded&&(<div style={{padding:"4px 18px 20px",display:"flex",flexDirection:"column",gap:"10px"}}>{[{icon:"☀️",label:"MORNING",text:d.morning,bg:"#FFF8E1"},{icon:"🌤️",label:"AFTERNOON",text:d.afternoon,bg:"#E3F2FD"},{icon:"🌙",label:"EVENING",text:d.evening,bg:"#F3E5F5"}].map((slot,i)=>(<div key={i} style={{display:"flex",gap:"12px",padding:"14px 16px",background:slot.bg,borderRadius:"16px"}}><span style={{fontSize:"24px"}}>{slot.icon}</span><div><div style={{fontFamily:"'Nunito',sans-serif",fontSize:"10px",fontWeight:800,color:"#666",letterSpacing:"2px"}}>{slot.label}</div><div style={{fontFamily:"'Nunito',sans-serif",fontSize:"15px",color:"#1A1A2E",fontWeight:600,marginTop:"2px"}}>{slot.text}</div></div></div>))}</div>)}</div>);}
 
-function DailyPlannerTab(){const[expanded,setExpanded]=useState(null);return(<div style={{display:"flex",flexDirection:"column",gap:"18px"}}><TrulloCard/><div style={{fontFamily:"'Fredoka',sans-serif",fontSize:"22px",color:"#1A1A2E",fontWeight:600,padding:"4px 0"}}>📅 Daily Plan <span style={{fontSize:"14px",color:"#888",fontWeight:500}}>tap to expand</span></div><div style={{fontFamily:"'Nunito',sans-serif",fontSize:"13px",color:"#999",fontWeight:700,fontStyle:"italic",marginTop:"-8px",marginBottom:"4px"}}>✨ Suggested itinerary based on nearby locations — flexible, not set in stone!</div>{DAILY.map((d,i)=>(<DayCard key={i} d={d} expanded={expanded===i} onToggle={()=>setExpanded(expanded===i?null:i)}/>))}</div>);}
+const DESTINATIONS = [
+  { name: "Monopoli", sub: "🏡 Home Base", lat: 40.9497, lng: 17.2967, color: "#FF6B35", days: "All days", drive: "", isHome: true },
+  { name: "Polignano a Mare", sub: "Day 4 · Cliffs & Old Town", lat: 40.9946, lng: 17.2199, color: "#F77F00", days: "Sun Jul 26", drive: "15 min" },
+  { name: "Alberobello", sub: "Day 5 · UNESCO Trulli", lat: 40.7846, lng: 17.2375, color: "#606C38", days: "Mon Jul 27", drive: "35 min" },
+  { name: "Matera", sub: "Day 6 · Cave City", lat: 40.6664, lng: 16.6043, color: "#9B2226", days: "Tue Jul 28", drive: "1h 20 min" },
+  { name: "Ostuni", sub: "Day 8 · White City", lat: 40.7299, lng: 17.5771, color: "#E9C46A", days: "Thu Jul 30", drive: "45 min" },
+  { name: "Lecce", sub: "Day 9 · Baroque City", lat: 40.3516, lng: 18.1718, color: "#E76F51", days: "Fri Jul 31", drive: "1h 30 min" },
+];
+
+function PugliaMap() {
+  const mapRef = useRef(null);
+  const mapInstance = useRef(null);
+
+  useEffect(() => {
+    if (!document.getElementById("leaflet-css")) {
+      const link = document.createElement("link"); link.id = "leaflet-css"; link.rel = "stylesheet";
+      link.href = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"; document.head.appendChild(link);
+    }
+    const loadLeaflet = () => new Promise((resolve) => {
+      if (window.L) { resolve(window.L); return; }
+      const s = document.createElement("script"); s.src = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js";
+      s.onload = () => resolve(window.L); document.head.appendChild(s);
+    });
+    loadLeaflet().then((L) => {
+      if (mapInstance.current) return;
+      const map = L.map(mapRef.current, { center: [40.82, 17.1], zoom: 9, zoomControl: false, attributionControl: false, scrollWheelZoom: false });
+      L.tileLayer("https://{s}.basemaps.cartocdn.com/voyager/{z}/{x}/{y}{r}.png", { maxZoom: 18 }).addTo(map);
+      L.control.zoom({ position: "topright" }).addTo(map);
+
+      // Draw lines from Monopoli to each destination
+      const home = DESTINATIONS[0];
+      DESTINATIONS.filter(d => !d.isHome).forEach((dest) => {
+        L.polyline([[home.lat, home.lng], [dest.lat, dest.lng]], {
+          color: dest.color, weight: 2, opacity: 0.4, dashArray: "6, 8"
+        }).addTo(map);
+      });
+
+      // Add markers
+      DESTINATIONS.forEach((dest) => {
+        const size = dest.isHome ? 20 : 14;
+        const icon = L.divIcon({ className: "puglia-marker",
+          html: '<div style="width:'+size+'px;height:'+size+'px;background:'+dest.color+';border:3px solid white;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></div>',
+          iconSize: [size, size], iconAnchor: [size/2, size/2] });
+        const marker = L.marker([dest.lat, dest.lng], { icon }).addTo(map);
+        const driveHtml = dest.drive ? '<div style="font-size:11px;color:#888;margin-top:2px;">🚗 ' + dest.drive + ' from Monopoli</div>' : '';
+        marker.bindTooltip(
+          '<div style="text-align:center;font-family:Nunito,sans-serif;min-width:100px;"><div style="font-size:14px;font-weight:800;color:#1A1A2E;">' + dest.name + '</div><div style="font-size:11px;color:' + dest.color + ';font-weight:700;">' + dest.sub + '</div>' + driveHtml + '</div>',
+          { permanent: dest.isHome, direction: "top", offset: [0, -12], className: "puglia-tooltip" }
+        );
+      });
+
+      // Fit bounds
+      const bounds = DESTINATIONS.map(d => [d.lat, d.lng]);
+      map.fitBounds(bounds, { padding: [40, 40], maxZoom: 10 });
+      mapInstance.current = map;
+
+      const st = document.createElement("style");
+      st.textContent = ".puglia-tooltip{background:white!important;color:#1A1A2E!important;border:none!important;border-radius:12px!important;padding:8px 14px!important;box-shadow:0 4px 20px rgba(0,0,0,0.12)!important;}.puglia-tooltip .leaflet-tooltip-tip{display:none!important;}.puglia-marker{background:transparent!important;border:none!important;}.leaflet-control-zoom a{background:white!important;color:#333!important;border-color:#E8E8E8!important;border-radius:8px!important;}";
+      document.head.appendChild(st);
+    });
+    return () => { if (mapInstance.current) { mapInstance.current.remove(); mapInstance.current = null; } };
+  }, []);
+
+  return (
+    <div style={{ borderRadius: "22px", overflow: "hidden", boxShadow: "0 4px 20px rgba(0,0,0,0.08)", border: "1px solid #E8E8E8", background: "white" }}>
+      <div ref={mapRef} style={{ width: "100%", height: "320px" }} />
+      <div style={{ padding: "14px 18px", display: "flex", flexWrap: "wrap", gap: "8px", justifyContent: "center" }}>
+        {DESTINATIONS.map((d, i) => (
+          <div key={i} style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "12px", fontFamily: "'Nunito',sans-serif", fontWeight: 700, color: "#555" }}>
+            <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: d.color, border: d.isHome ? "2px solid #333" : "none" }} />
+            <span>{d.name}</span>
+            {d.drive && <span style={{ color: "#AAA" }}>· 🚗 {d.drive}</span>}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function DailyPlannerTab(){const[expanded,setExpanded]=useState(null);return(<div style={{display:"flex",flexDirection:"column",gap:"18px"}}><TrulloCard/><PugliaMap/><div style={{fontFamily:"'Fredoka',sans-serif",fontSize:"22px",color:"#1A1A2E",fontWeight:600,padding:"4px 0"}}>📅 Daily Plan <span style={{fontSize:"14px",color:"#888",fontWeight:500}}>tap to expand</span></div><div style={{fontFamily:"'Nunito',sans-serif",fontSize:"13px",color:"#999",fontWeight:700,fontStyle:"italic",marginTop:"-8px",marginBottom:"4px"}}>✨ Suggested itinerary based on nearby locations — flexible, not set in stone!</div>{DAILY.map((d,i)=>(<DayCard key={i} d={d} expanded={expanded===i} onToggle={()=>setExpanded(expanded===i?null:i)}/>))}</div>);}
 
 function FamilyTab({family}){const f=family==="restrepo"?RESTREPO:RICARDO;const isR=family==="restrepo";return(<div style={{display:"flex",flexDirection:"column",gap:"18px"}}><div style={{background:f.color,borderRadius:"24px",padding:"32px 24px",color:"white",textAlign:"center",position:"relative",overflow:"hidden"}}><div style={{position:"absolute",top:"-30px",right:"-20px",fontSize:"120px",opacity:0.12}}>{f.emoji}</div><div style={{position:"relative",zIndex:2}}><div style={{fontSize:"48px",marginBottom:"8px"}}>{f.members.map(m=>m.emoji).join(" ")}</div><div style={{fontFamily:"'Fredoka',sans-serif",fontSize:"32px",fontWeight:600}}>Team {f.family}</div><div style={{fontFamily:"'Nunito',sans-serif",fontSize:"16px",opacity:0.9,fontWeight:600,marginTop:"4px"}}>{f.members.map(m=>m.name).join(" · ")}</div></div></div><div style={{display:"grid",gridTemplateColumns:`repeat(${f.members.length>3?2:3},1fr)`,gap:"12px"}}>{f.members.map((m,i)=>(<div key={i} style={{background:"white",borderRadius:"18px",padding:"20px 12px",textAlign:"center",boxShadow:"0 4px 15px rgba(0,0,0,0.06)",border:`2px solid ${f.color}20`}}><div style={{fontSize:"40px",marginBottom:"6px"}}>{m.emoji}</div><div style={{fontFamily:"'Fredoka',sans-serif",fontSize:"16px",color:"#1A1A2E",fontWeight:600}}>{m.name}</div><div style={{fontFamily:"'Nunito',sans-serif",fontSize:"12px",color:f.color,fontWeight:700,textTransform:"uppercase",letterSpacing:"1px"}}>{m.role}</div></div>))}</div><FunCard title="✈️ FLIGHT TO PUGLIA" color={f.color}><FlightBlock flight={f.flights.to} color={f.color}/></FunCard><FunCard title="✈️ FLIGHT HOME" color={f.color}><FlightBlock flight={f.flights.from} color={f.color}/></FunCard>{isR&&f.car&&(<FunCard title="🚗 RENTAL CAR" color={f.color}><div style={{fontFamily:"'Fredoka',sans-serif",fontSize:"22px",color:"#1A1A2E",fontWeight:600}}>{f.car.model}</div><div style={{display:"flex",flexDirection:"column",gap:"8px",marginTop:"12px"}}><InfoLine icon="📍" text={`Pickup: ${f.car.pickup}`}/><InfoLine icon="📍" text={`Return: ${f.car.return}`}/><InfoLine icon="📋" text={`Conf: ${f.car.conf}`}/></div></FunCard>)}<FunCard title="📅 YOUR TRIP AT A GLANCE" color={f.color}>{(isR?[{date:"Jul 23",icon:"✈️",text:"Paris → Bari · Trullo check-in"},{date:"Jul 24",icon:"🥳",text:"Ricardo arrives · Pool day"},{date:"Jul 25",icon:"🏖️",text:"Cala Paradiso beach"},{date:"Jul 26",icon:"🌊",text:"Polignano a Mare"},{date:"Jul 27",icon:"🏡",text:"Alberobello trulli"},{date:"Jul 28",icon:"🪨",text:"Matera caves"},{date:"Jul 29",icon:"⛵",text:"Boat cave tour"},{date:"Jul 30",icon:"🤍",text:"Ostuni white city"},{date:"Jul 31",icon:"🍝",text:"Lecce · Farewell dinner"},{date:"Aug 1",icon:"✈️",text:"Bari → Madrid"},{date:"Aug 2",icon:"🏠",text:"AA 69 Madrid → Miami"}]:[{date:"Jul 23",icon:"✈️",text:"Miami → Rome (overnight)"},{date:"Jul 24",icon:"🥳",text:"Rome → Bari → Trullo!"},{date:"Jul 25",icon:"🏖️",text:"Cala Paradiso beach"},{date:"Jul 26",icon:"🌊",text:"Polignano a Mare"},{date:"Jul 27",icon:"🏡",text:"Alberobello trulli"},{date:"Jul 28",icon:"🪨",text:"Matera caves"},{date:"Jul 29",icon:"⛵",text:"Boat cave tour"},{date:"Jul 30",icon:"🤍",text:"Ostuni white city"},{date:"Jul 31",icon:"🍝",text:"Lecce · Farewell dinner"},{date:"Aug 1",icon:"🏠",text:"Bari → Rome → Miami"}]).map((d,i)=>(<div key={i} style={{display:"flex",gap:"12px",alignItems:"center",padding:"10px 0",borderBottom:i<9?"1px solid #F0F0F0":"none"}}><span style={{fontSize:"20px"}}>{d.icon}</span><span style={{fontFamily:"'Nunito',sans-serif",fontSize:"13px",color:f.color,fontWeight:800,minWidth:"50px"}}>{d.date}</span><span style={{fontFamily:"'Nunito',sans-serif",fontSize:"15px",color:"#1A1A2E",fontWeight:600}}>{d.text}</span></div>))}</FunCard></div>);}
 
