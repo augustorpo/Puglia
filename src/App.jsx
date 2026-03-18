@@ -70,24 +70,43 @@ const DESTINATIONS = [
 function PugliaMap() {
   const mapRef = useRef(null);
   const mapInstance = useRef(null);
+  const [mapReady, setMapReady] = useState(false);
 
   useEffect(() => {
-    if (!document.getElementById("leaflet-css")) {
-      const link = document.createElement("link"); link.id = "leaflet-css"; link.rel = "stylesheet";
-      link.href = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"; document.head.appendChild(link);
+    let cancelled = false;
+
+    // Load CSS
+    if (!document.getElementById("leaflet-css-puglia")) {
+      const link = document.createElement("link");
+      link.id = "leaflet-css-puglia";
+      link.rel = "stylesheet";
+      link.href = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css";
+      document.head.appendChild(link);
     }
-    const loadLeaflet = () => new Promise((resolve) => {
-      if (window.L) { resolve(window.L); return; }
-      const s = document.createElement("script"); s.src = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js";
-      s.onload = () => resolve(window.L); document.head.appendChild(s);
-    });
-    loadLeaflet().then((L) => {
-      if (mapInstance.current) return;
-      const map = L.map(mapRef.current, { center: [40.82, 17.1], zoom: 9, zoomControl: false, attributionControl: false, scrollWheelZoom: false });
+
+    // Load JS
+    function loadScript() {
+      return new Promise((resolve, reject) => {
+        if (window.L) { resolve(window.L); return; }
+        const s = document.createElement("script");
+        s.src = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js";
+        s.onload = () => resolve(window.L);
+        s.onerror = () => reject(new Error("Leaflet failed"));
+        document.head.appendChild(s);
+      });
+    }
+
+    loadScript().then((L) => {
+      if (cancelled || mapInstance.current || !mapRef.current) return;
+
+      const map = L.map(mapRef.current, {
+        center: [40.82, 17.1], zoom: 9,
+        zoomControl: false, attributionControl: false, scrollWheelZoom: false, dragging: true
+      });
+
       L.tileLayer("https://{s}.basemaps.cartocdn.com/voyager/{z}/{x}/{y}{r}.png", { maxZoom: 18 }).addTo(map);
       L.control.zoom({ position: "topright" }).addTo(map);
 
-      // Draw lines from Monopoli to each destination
       const home = DESTINATIONS[0];
       DESTINATIONS.filter(d => !d.isHome).forEach((dest) => {
         L.polyline([[home.lat, home.lng], [dest.lat, dest.lng]], {
@@ -95,12 +114,13 @@ function PugliaMap() {
         }).addTo(map);
       });
 
-      // Add markers
       DESTINATIONS.forEach((dest) => {
         const size = dest.isHome ? 20 : 14;
-        const icon = L.divIcon({ className: "puglia-marker",
+        const icon = L.divIcon({
+          className: "puglia-marker",
           html: '<div style="width:'+size+'px;height:'+size+'px;background:'+dest.color+';border:3px solid white;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></div>',
-          iconSize: [size, size], iconAnchor: [size/2, size/2] });
+          iconSize: [size, size], iconAnchor: [size/2, size/2]
+        });
         const marker = L.marker([dest.lat, dest.lng], { icon }).addTo(map);
         const driveHtml = dest.drive ? '<div style="font-size:11px;color:#888;margin-top:2px;">🚗 ' + dest.drive + ' from Monopoli</div>' : '';
         marker.bindTooltip(
@@ -109,21 +129,26 @@ function PugliaMap() {
         );
       });
 
-      // Fit bounds
-      const bounds = DESTINATIONS.map(d => [d.lat, d.lng]);
-      map.fitBounds(bounds, { padding: [40, 40], maxZoom: 10 });
+      map.fitBounds(DESTINATIONS.map(d => [d.lat, d.lng]), { padding: [40, 40], maxZoom: 10 });
       mapInstance.current = map;
+      setMapReady(true);
 
       const st = document.createElement("style");
       st.textContent = ".puglia-tooltip{background:white!important;color:#1A1A2E!important;border:none!important;border-radius:12px!important;padding:8px 14px!important;box-shadow:0 4px 20px rgba(0,0,0,0.12)!important;}.puglia-tooltip .leaflet-tooltip-tip{display:none!important;}.puglia-marker{background:transparent!important;border:none!important;}.leaflet-control-zoom a{background:white!important;color:#333!important;border-color:#E8E8E8!important;border-radius:8px!important;}";
       document.head.appendChild(st);
+
+      // Force resize after render
+      setTimeout(() => { map.invalidateSize(); }, 300);
+    }).catch(() => {
+      console.log("Map failed to load");
     });
-    return () => { if (mapInstance.current) { mapInstance.current.remove(); mapInstance.current = null; } };
+
+    return () => { cancelled = true; if (mapInstance.current) { mapInstance.current.remove(); mapInstance.current = null; } };
   }, []);
 
   return (
     <div style={{ borderRadius: "22px", overflow: "hidden", boxShadow: "0 4px 20px rgba(0,0,0,0.08)", border: "1px solid #E8E8E8", background: "white" }}>
-      <div ref={mapRef} style={{ width: "100%", height: "320px" }} />
+      <div ref={mapRef} style={{ width: "100%", height: "320px", background: "#E8F4F8" }} />
       <div style={{ padding: "14px 18px", display: "flex", flexWrap: "wrap", gap: "8px", justifyContent: "center" }}>
         {DESTINATIONS.map((d, i) => (
           <div key={i} style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "12px", fontFamily: "'Nunito',sans-serif", fontWeight: 700, color: "#555" }}>
