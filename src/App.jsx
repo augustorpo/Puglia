@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 const PHOTOS = {
-  hero: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&q=80",
+  hero: "https://images.unsplash.com/photo-1606143925122-e69b38530941?w=1200&q=80",
   trulli: "https://images.unsplash.com/photo-1600804342887-6252a394ea37?w=800&q=80",
   polignano: "https://images.unsplash.com/photo-1606143925122-e69b38530941?w=800&q=80",
   monopoli: "https://images.unsplash.com/photo-1610484826917-0f101a5b1763?w=800&q=80",
@@ -9,7 +9,7 @@ const PHOTOS = {
   ostuni: "https://images.unsplash.com/photo-1610969524113-bae462bb3892?w=800&q=80",
   lecce: "https://images.unsplash.com/photo-1600005082847-89817b12c15a?w=800&q=80",
   boat: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&q=80",
-  beach: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80",
+  beach: "https://images.unsplash.com/photo-1534258936925-c58bed479fcb?w=800&q=80",
   puglia: "https://images.unsplash.com/photo-1623859191970-9a37c27f4b1e?w=800&q=80",
 };
 const DAY_PHOTOS = { "Jul 23":"monopoli","Jul 24":"monopoli","Jul 25":"beach","Jul 26":"polignano","Jul 27":"trulli","Jul 28":"matera","Jul 29":"boat","Jul 30":"ostuni","Jul 31":"lecce","Aug 01":"puglia" };
