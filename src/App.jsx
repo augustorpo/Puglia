@@ -1,20 +1,21 @@
 import { useState, useEffect, useRef } from "react";
 
+// Using HelloApulia CDN photos (100% reliable) + gradients for day trips
 const PHOTOS = {
-  hero: "https://images.unsplash.com/photo-1590846083693-f23fdede3a7e?w=1400&q=80",
-  trulli: "https://images.unsplash.com/photo-1558014356-f7c41bc529e0?w=800&q=80",
-  polignano: "https://images.unsplash.com/photo-1635594903498-a1e8fb5ce890?w=800&q=80",
-  monopoli: "https://images.unsplash.com/photo-1610484826917-0f101a5b1763?w=800&q=80",
-  matera: "https://images.unsplash.com/photo-1599749010598-ac8bfa3e3751?w=800&q=80",
-  ostuni: "https://images.unsplash.com/photo-1610969524113-bae462bb3892?w=800&q=80",
-  lecce: "https://images.unsplash.com/photo-1600005082847-89817b12c15a?w=800&q=80",
-  boat: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&q=80",
-  beach: "https://images.unsplash.com/photo-1590846083693-f23fdede3a7e?w=800&q=80",
-  puglia: "https://images.unsplash.com/photo-1623859191970-9a37c27f4b1e?w=800&q=80",
-  food: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=800&q=80",
-  login: "https://images.unsplash.com/photo-1590846083693-f23fdede3a7e?w=1400&q=80",
+  // Actual property photos - sunny Mediterranean guaranteed
+  hero: "https://cdn.krossbooking.com/hellogroup/images/3/168/17447185887678.jpg",
+  pool: "https://cdn.krossbooking.com/hellogroup/images/3/168/17484117069601.jpg",
+  trullo1: "https://cdn.krossbooking.com/hellogroup/images/3/168/15647426769789.jpg",
+  garden: "https://cdn.krossbooking.com/hellogroup/images/3/168/17484118072474.jpg",
+  view: "https://cdn.krossbooking.com/hellogroup/images/3/168/17484117962230.jpg",
+  outdoor: "https://cdn.krossbooking.com/hellogroup/images/3/168/15647425914640.jpg",
+  living: "https://cdn.krossbooking.com/hellogroup/images/3/168/17217283671446.jpg",
+  kitchen: "https://cdn.krossbooking.com/hellogroup/images/3/168/17447185467940.jpg",
+  bedroom: "https://cdn.krossbooking.com/hellogroup/images/3/168/17447185448088.jpg",
+  terrace: "https://cdn.krossbooking.com/hellogroup/images/3/168/17484118114550.jpg",
 };
-const DAY_PHOTOS = { "Jul 23":"monopoli","Jul 24":"monopoli","Jul 25":"beach","Jul 26":"polignano","Jul 27":"trulli","Jul 28":"matera","Jul 29":"boat","Jul 30":"ostuni","Jul 31":"lecce","Aug 01":"puglia" };
+// Day trip cards use the actual property photos rotated + color gradients as visual identity
+const DAY_PHOTOS = { "Jul 23":"hero","Jul 24":"pool","Jul 25":"view","Jul 26":"pool","Jul 27":"garden","Jul 28":"outdoor","Jul 29":"view","Jul 30":"terrace","Jul 31":"living","Aug 01":"hero" };
 
 const RESTREPO = {
   family:"Restrepo", emoji:"🌶️", color:"#FF6B35",
@@ -357,10 +358,10 @@ function LoginScreen({ onLogin }) {
     <div style={{ minHeight: "100vh", position: "relative", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'Nunito', sans-serif", overflow: "hidden" }}>
       <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
       {/* Full-bleed background photo */}
-      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, #1a3a5c 0%, #0d2137 100%)" }} />
-      <img src={PHOTOS.login} alt="" onLoad={() => setBgLoaded(true)}
+      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, #00B4D8 0%, #48CAE4 100%)" }} />
+      <img src="https://cdn.krossbooking.com/hellogroup/images/3/168/17484117069601.jpg" alt="" onLoad={() => setBgLoaded(true)}
         style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: bgLoaded ? 1 : 0, transition: "opacity 1s" }} />
-      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.65) 100%)" }} />
+      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(0,120,200,0.15) 0%, rgba(0,0,0,0.45) 100%)" }} />
       <div style={{ position: "relative", zIndex: 2, textAlign: "center", maxWidth: "400px", width: "100%", padding: "0 24px", animation: shake ? "shakeAnim 0.4s" : "fadeUp 0.8s" }}>
         <div style={{ fontFamily: "'Fredoka', sans-serif", fontSize: "13px", letterSpacing: "4px", textTransform: "uppercase", color: "rgba(255,255,255,0.7)", fontWeight: 500 }}>Summer 2026</div>
         <h1 style={{ fontFamily: "'Fredoka', sans-serif", fontSize: "56px", color: "white", fontWeight: 600, letterSpacing: "-2px", textShadow: "0 4px 30px rgba(0,0,0,0.4)", margin: "4px 0 6px", lineHeight: 1 }}>Puglia</h1>
