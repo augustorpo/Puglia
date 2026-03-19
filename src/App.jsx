@@ -81,7 +81,7 @@ function PugliaMap() {
         center: [40.82, 17.1], zoom: 9,
         zoomControl: false, attributionControl: false, scrollWheelZoom: false
       });
-      L.tileLayer("https://{s}.basemaps.cartocdn.com/voyager/{z}/{x}/{y}{r}.png", { maxZoom: 18 }).addTo(map);
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 18, crossOrigin: true }).addTo(map);
       L.control.zoom({ position: "topright" }).addTo(map);
 
       const home = DESTINATIONS[0];
@@ -109,8 +109,15 @@ function PugliaMap() {
       map.fitBounds(DESTINATIONS.map(d => [d.lat, d.lng]), { padding: [40, 40], maxZoom: 10 });
       mapInstance.current = map;
       setReady(true);
-      setTimeout(() => map.invalidateSize(), 200);
-      setTimeout(() => map.invalidateSize(), 500);
+      // Aggressively fix tile rendering
+      [100, 300, 600, 1000, 2000].forEach(ms => {
+        setTimeout(() => {
+          if (mapInstance.current) {
+            mapInstance.current.invalidateSize();
+            mapInstance.current.fitBounds(DESTINATIONS.map(d => [d.lat, d.lng]), { padding: [40, 40], maxZoom: 10 });
+          }
+        }, ms);
+      });
     };
 
     // Try immediately, then retry a few times
