@@ -70,40 +70,17 @@ const DESTINATIONS = [
 function PugliaMap() {
   const mapRef = useRef(null);
   const mapInstance = useRef(null);
-  const [mapReady, setMapReady] = useState(false);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    let cancelled = false;
-
-    // Load CSS
-    if (!document.getElementById("leaflet-css-puglia")) {
-      const link = document.createElement("link");
-      link.id = "leaflet-css-puglia";
-      link.rel = "stylesheet";
-      link.href = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css";
-      document.head.appendChild(link);
-    }
-
-    // Load JS
-    function loadScript() {
-      return new Promise((resolve, reject) => {
-        if (window.L) { resolve(window.L); return; }
-        const s = document.createElement("script");
-        s.src = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js";
-        s.onload = () => resolve(window.L);
-        s.onerror = () => reject(new Error("Leaflet failed"));
-        document.head.appendChild(s);
-      });
-    }
-
-    loadScript().then((L) => {
-      if (cancelled || mapInstance.current || !mapRef.current) return;
-
+    // Wait for Leaflet to be available
+    const tryInit = () => {
+      if (!window.L || !mapRef.current || mapInstance.current) return;
+      const L = window.L;
       const map = L.map(mapRef.current, {
         center: [40.82, 17.1], zoom: 9,
-        zoomControl: false, attributionControl: false, scrollWheelZoom: false, dragging: true
+        zoomControl: false, attributionControl: false, scrollWheelZoom: false
       });
-
       L.tileLayer("https://{s}.basemaps.cartocdn.com/voyager/{z}/{x}/{y}{r}.png", { maxZoom: 18 }).addTo(map);
       L.control.zoom({ position: "topright" }).addTo(map);
 
@@ -122,32 +99,35 @@ function PugliaMap() {
           iconSize: [size, size], iconAnchor: [size/2, size/2]
         });
         const marker = L.marker([dest.lat, dest.lng], { icon }).addTo(map);
-        const driveHtml = dest.drive ? '<div style="font-size:11px;color:#888;margin-top:2px;">🚗 ' + dest.drive + ' from Monopoli</div>' : '';
+        const driveHtml = dest.drive ? '<div style="font-size:11px;color:#888;margin-top:2px;">🚗 '+dest.drive+' from Monopoli</div>' : '';
         marker.bindTooltip(
-          '<div style="text-align:center;font-family:Nunito,sans-serif;min-width:100px;"><div style="font-size:14px;font-weight:800;color:#1A1A2E;">' + dest.name + '</div><div style="font-size:11px;color:' + dest.color + ';font-weight:700;">' + dest.sub + '</div>' + driveHtml + '</div>',
+          '<div style="text-align:center;font-family:Nunito,sans-serif;min-width:100px;"><div style="font-size:14px;font-weight:800;color:#1A1A2E;">'+dest.name+'</div><div style="font-size:11px;color:'+dest.color+';font-weight:700;">'+dest.sub+'</div>'+driveHtml+'</div>',
           { permanent: dest.isHome, direction: "top", offset: [0, -12], className: "puglia-tooltip" }
         );
       });
 
       map.fitBounds(DESTINATIONS.map(d => [d.lat, d.lng]), { padding: [40, 40], maxZoom: 10 });
       mapInstance.current = map;
-      setMapReady(true);
+      setReady(true);
+      setTimeout(() => map.invalidateSize(), 200);
+      setTimeout(() => map.invalidateSize(), 500);
+    };
 
-      const st = document.createElement("style");
-      st.textContent = ".puglia-tooltip{background:white!important;color:#1A1A2E!important;border:none!important;border-radius:12px!important;padding:8px 14px!important;box-shadow:0 4px 20px rgba(0,0,0,0.12)!important;}.puglia-tooltip .leaflet-tooltip-tip{display:none!important;}.puglia-marker{background:transparent!important;border:none!important;}.leaflet-control-zoom a{background:white!important;color:#333!important;border-color:#E8E8E8!important;border-radius:8px!important;}";
-      document.head.appendChild(st);
+    // Try immediately, then retry a few times
+    tryInit();
+    const t1 = setTimeout(tryInit, 500);
+    const t2 = setTimeout(tryInit, 1500);
+    const t3 = setTimeout(tryInit, 3000);
 
-      // Force resize after render
-      setTimeout(() => { map.invalidateSize(); }, 300);
-    }).catch(() => {
-      console.log("Map failed to load");
-    });
-
-    return () => { cancelled = true; if (mapInstance.current) { mapInstance.current.remove(); mapInstance.current = null; } };
+    return () => {
+      clearTimeout(t1); clearTimeout(t2); clearTimeout(t3);
+      if (mapInstance.current) { mapInstance.current.remove(); mapInstance.current = null; }
+    };
   }, []);
 
   return (
     <div style={{ borderRadius: "22px", overflow: "hidden", boxShadow: "0 4px 20px rgba(0,0,0,0.08)", border: "1px solid #E8E8E8", background: "white" }}>
+      <style>{`.puglia-tooltip{background:white!important;color:#1A1A2E!important;border:none!important;border-radius:12px!important;padding:8px 14px!important;box-shadow:0 4px 20px rgba(0,0,0,0.12)!important;}.puglia-tooltip .leaflet-tooltip-tip{display:none!important;}.puglia-marker{background:transparent!important;border:none!important;}.leaflet-control-zoom a{background:white!important;color:#333!important;border-color:#E8E8E8!important;border-radius:8px!important;}`}</style>
       <div ref={mapRef} style={{ width: "100%", height: "320px", background: "#E8F4F8" }} />
       <div style={{ padding: "14px 18px", display: "flex", flexWrap: "wrap", gap: "8px", justifyContent: "center" }}>
         {DESTINATIONS.map((d, i) => (
