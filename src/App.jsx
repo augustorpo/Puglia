@@ -1,8 +1,19 @@
 import { useState, useEffect, useRef } from "react";
 
-// Using HelloApulia CDN photos (100% reliable) + gradients for day trips
+// Verified Unsplash slugs from search results + property CDN
 const PHOTOS = {
-  // Actual property photos - sunny Mediterranean guaranteed
+  // Destinations - verified Unsplash photo slugs
+  polignano: "https://images.unsplash.com/photo-KZ-bTlzLa5o?w=800&q=80",
+  polignano2: "https://images.unsplash.com/photo-SjdAevT9zR0?w=800&q=80",
+  alberobello: "https://images.unsplash.com/photo-zZM6x-zQTiQ?w=800&q=80",
+  alberobello2: "https://images.unsplash.com/photo-jv3kvNBxz5s?w=800&q=80",
+  matera: "https://images.unsplash.com/photo-1599749010598-ac8bfa3e3751?w=800&q=80",
+  ostuni: "https://images.unsplash.com/photo-1610969524113-bae462bb3892?w=800&q=80",
+  lecce: "https://images.unsplash.com/photo-1600005082847-89817b12c15a?w=800&q=80",
+  monopoli: "https://images.unsplash.com/photo-1610484826917-0f101a5b1763?w=800&q=80",
+  boat: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&q=80",
+  beach: "https://images.unsplash.com/photo-rpf1Ly3hD64?w=800&q=80",
+  // Property photos for Trullo tab + hero
   hero: "https://cdn.krossbooking.com/hellogroup/images/3/168/17447185887678.jpg",
   pool: "https://cdn.krossbooking.com/hellogroup/images/3/168/17484117069601.jpg",
   trullo1: "https://cdn.krossbooking.com/hellogroup/images/3/168/15647426769789.jpg",
@@ -14,8 +25,8 @@ const PHOTOS = {
   bedroom: "https://cdn.krossbooking.com/hellogroup/images/3/168/17447185448088.jpg",
   terrace: "https://cdn.krossbooking.com/hellogroup/images/3/168/17484118114550.jpg",
 };
-// Day trip cards use the actual property photos rotated + color gradients as visual identity
-const DAY_PHOTOS = { "Jul 23":"hero","Jul 24":"pool","Jul 25":"view","Jul 26":"pool","Jul 27":"garden","Jul 28":"outdoor","Jul 29":"view","Jul 30":"terrace","Jul 31":"living","Aug 01":"hero" };
+// Each day shows the destination you're visiting that day
+const DAY_PHOTOS = { "Jul 23":"monopoli","Jul 24":"pool","Jul 25":"beach","Jul 26":"polignano","Jul 27":"alberobello","Jul 28":"matera","Jul 29":"boat","Jul 30":"ostuni","Jul 31":"lecce","Aug 01":"hero" };
 
 const RESTREPO = {
   family:"Restrepo", emoji:"🌶️", color:"#FF6B35",
