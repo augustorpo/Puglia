@@ -1,16 +1,18 @@
 import { useState, useEffect, useRef } from "react";
 
 const PHOTOS = {
-  hero: "https://cdn.krossbooking.com/hellogroup/images/3/168/17447185887678.jpg",
-  trulli: "https://images.unsplash.com/photo-1600804342887-6252a394ea37?w=800&q=80",
-  polignano: "https://images.unsplash.com/photo-1606143925122-e69b38530941?w=800&q=80",
+  hero: "https://images.unsplash.com/photo-1590846083693-f23fdede3a7e?w=1400&q=80",
+  trulli: "https://images.unsplash.com/photo-1558014356-f7c41bc529e0?w=800&q=80",
+  polignano: "https://images.unsplash.com/photo-1635594903498-a1e8fb5ce890?w=800&q=80",
   monopoli: "https://images.unsplash.com/photo-1610484826917-0f101a5b1763?w=800&q=80",
   matera: "https://images.unsplash.com/photo-1599749010598-ac8bfa3e3751?w=800&q=80",
   ostuni: "https://images.unsplash.com/photo-1610969524113-bae462bb3892?w=800&q=80",
   lecce: "https://images.unsplash.com/photo-1600005082847-89817b12c15a?w=800&q=80",
   boat: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&q=80",
-  beach: "https://cdn.krossbooking.com/hellogroup/images/3/168/17484117069601.jpg",
+  beach: "https://images.unsplash.com/photo-1590846083693-f23fdede3a7e?w=800&q=80",
   puglia: "https://images.unsplash.com/photo-1623859191970-9a37c27f4b1e?w=800&q=80",
+  food: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=800&q=80",
+  login: "https://images.unsplash.com/photo-1590846083693-f23fdede3a7e?w=1400&q=80",
 };
 const DAY_PHOTOS = { "Jul 23":"monopoli","Jul 24":"monopoli","Jul 25":"beach","Jul 26":"polignano","Jul 27":"trulli","Jul 28":"matera","Jul 29":"boat","Jul 30":"ostuni","Jul 31":"lecce","Aug 01":"puglia" };
 
@@ -52,7 +54,7 @@ function PhotoBg({src,fallback,style,children}){const[loaded,setLoaded]=useState
 
 function WaveSvg({color}){return(<svg viewBox="0 0 1440 100" style={{display:"block",width:"100%",marginTop:"-50px",position:"relative",zIndex:5}}><path fill={color||"#F0F7FF"} d="M0,40 C360,100 1080,0 1440,60 L1440,100 L0,100 Z"/></svg>);}
 
-function HeroSection(){return(<div><PhotoBg src={PHOTOS.hero} fallback="linear-gradient(135deg,#00B4D8 0%,#0077B6 40%,#FF6B35 100%)" style={{width:"100%",height:"60vh",minHeight:"400px"}}><div style={{position:"absolute",inset:0,background:"linear-gradient(to bottom,rgba(0,0,0,0) 0%,rgba(0,0,0,0.55) 100%)"}}/><div style={{position:"relative",zIndex:2,height:"100%",display:"flex",flexDirection:"column",justifyContent:"flex-end",padding:"clamp(20px,5vw,40px)"}}><div style={{fontSize:"48px",lineHeight:1,marginBottom:"4px"}}>🇮🇹☀️🌊</div><h1 style={{fontFamily:"'Fredoka',sans-serif",fontSize:"clamp(42px,12vw,80px)",color:"white",fontWeight:600,lineHeight:1,letterSpacing:"-2px",textShadow:"0 4px 20px rgba(0,0,0,0.3)"}}>PUGLIA</h1><p style={{fontFamily:"'Nunito',sans-serif",fontSize:"clamp(16px,4vw,22px)",color:"rgba(255,255,255,0.9)",fontWeight:700,marginTop:"4px"}}>Two Families. One Trullo. Pure Magic. ✨</p><div style={{display:"flex",gap:"10px",marginTop:"16px",flexWrap:"wrap"}}>{["🌶️ Restrepo","🦜 Ricardo","🏖️ Jul 23 – Aug 1","🏡 Monopoli"].map((t,i)=>(<span key={i} style={{background:"rgba(255,255,255,0.2)",backdropFilter:"blur(12px)",borderRadius:"25px",padding:"8px 18px",fontSize:"14px",color:"white",fontFamily:"'Nunito',sans-serif",fontWeight:700}}>{t}</span>))}</div></div></PhotoBg><WaveSvg color="#F0F7FF"/></div>);}
+function HeroSection(){return(<div><PhotoBg src="https://cdn.krossbooking.com/hellogroup/images/3/168/17447185887678.jpg" fallback="linear-gradient(135deg,#1a3a5c 0%,#0077B6 40%,#FF6B35 100%)" style={{width:"100%",height:"55vh",minHeight:"380px"}}><div style={{position:"absolute",inset:0,background:"linear-gradient(to bottom,rgba(0,0,0,0) 0%,rgba(0,0,0,0.6) 100%)"}}/><div style={{position:"relative",zIndex:2,height:"100%",display:"flex",flexDirection:"column",justifyContent:"flex-end",padding:"clamp(20px,5vw,40px)"}}><div style={{fontFamily:"'Fredoka',sans-serif",fontSize:"12px",letterSpacing:"4px",textTransform:"uppercase",color:"rgba(255,255,255,0.7)",fontWeight:500}}>July 23 – August 1, 2026</div><h1 style={{fontFamily:"'Fredoka',sans-serif",fontSize:"clamp(44px,12vw,76px)",color:"white",fontWeight:600,lineHeight:1,letterSpacing:"-2px",textShadow:"0 4px 20px rgba(0,0,0,0.3)",margin:"4px 0 6px"}}>Puglia</h1><p style={{fontFamily:"'Nunito',sans-serif",fontSize:"clamp(15px,3.5vw,20px)",color:"rgba(255,255,255,0.9)",fontWeight:700}}>Two families. One trullo. Southern Italy magic. ✨</p><div style={{display:"flex",gap:"10px",marginTop:"16px",flexWrap:"wrap"}}>{["🌶️ Restrepo","🦜 Ricardo","🏡 Monopoli","☀️ 10 Days"].map((t,i)=>(<span key={i} style={{background:"rgba(255,255,255,0.15)",backdropFilter:"blur(12px)",borderRadius:"25px",padding:"8px 18px",fontSize:"14px",color:"white",fontFamily:"'Nunito',sans-serif",fontWeight:700}}>{t}</span>))}</div></div></PhotoBg><WaveSvg color="#F0F7FF"/></div>);}
 
 function TrulloCard(){return(<div style={{background:"linear-gradient(135deg,#FF6B35,#FF9F1C)",borderRadius:"24px",padding:"28px 24px",color:"white",position:"relative",overflow:"hidden"}}><div style={{position:"absolute",top:"-20px",right:"-10px",fontSize:"100px",opacity:0.15,transform:"rotate(10deg)"}}>🏡</div><div style={{position:"relative",zIndex:2}}><div style={{fontFamily:"'Fredoka',sans-serif",fontSize:"13px",letterSpacing:"2px",textTransform:"uppercase",opacity:0.85,fontWeight:500}}>🏡 HOME BASE</div><div style={{fontFamily:"'Fredoka',sans-serif",fontSize:"24px",fontWeight:600,marginTop:"6px",lineHeight:1.2}}>{TRULLO.name}</div><div style={{fontFamily:"'Nunito',sans-serif",fontSize:"15px",opacity:0.9,marginTop:"4px"}}>{TRULLO.location}</div><div style={{display:"flex",flexWrap:"wrap",gap:"8px",marginTop:"16px"}}>{TRULLO.features.map((f,i)=>(<span key={i} style={{background:"rgba(255,255,255,0.2)",borderRadius:"20px",padding:"5px 14px",fontSize:"13px",fontFamily:"'Nunito',sans-serif",fontWeight:600}}>{f}</span>))}</div><div style={{display:"flex",gap:"16px",marginTop:"14px",fontFamily:"'Nunito',sans-serif",fontSize:"14px",fontWeight:700}}><span>💶 {TRULLO.cost}</span><span>🌙 {TRULLO.nights}</span></div></div></div>);}
 
@@ -349,24 +351,29 @@ function LoginScreen({ onLogin }) {
   const [pw, setPw] = useState("");
   const [error, setError] = useState(false);
   const [shake, setShake] = useState(false);
+  const [bgLoaded, setBgLoaded] = useState(false);
   const go = () => { if (pw.toLowerCase() === PASSWORD) onLogin(); else { setError(true); setShake(true); setTimeout(() => setShake(false), 500); } };
   return (
-    <div style={{ minHeight: "100vh", background: "linear-gradient(135deg, #00B4D8 0%, #0077B6 30%, #FF6B35 80%, #FF9F1C 100%)", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'Nunito', sans-serif", position: "relative", overflow: "hidden" }}>
+    <div style={{ minHeight: "100vh", position: "relative", display: "flex", alignItems: "center", justifyContent: "center", fontFamily: "'Nunito', sans-serif", overflow: "hidden" }}>
       <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-      <div style={{ position: "absolute", top: "-80px", right: "-50px", fontSize: "250px", opacity: 0.08, transform: "rotate(-15deg)" }}>🇮🇹</div>
-      <div style={{ position: "absolute", bottom: "-40px", left: "-30px", fontSize: "180px", opacity: 0.08, transform: "rotate(20deg)" }}>☀️</div>
-      <div style={{ textAlign: "center", maxWidth: "400px", width: "100%", padding: "0 24px", animation: shake ? "shakeAnim 0.4s" : "fadeUp 0.8s" }}>
-        <div style={{ fontSize: "56px", marginBottom: "12px" }}>🇮🇹☀️🏡</div>
-        <h1 style={{ fontFamily: "'Fredoka', sans-serif", fontSize: "42px", color: "white", fontWeight: 600, letterSpacing: "-1px", textShadow: "0 4px 20px rgba(0,0,0,0.2)" }}>PUGLIA 2026</h1>
-        <p style={{ fontSize: "16px", color: "rgba(255,255,255,0.85)", fontWeight: 700, margin: "4px 0 32px" }}>Restrepo × Ricardo · Summer in Italy</p>
-        <div style={{ background: "rgba(255,255,255,0.15)", backdropFilter: "blur(20px)", borderRadius: "22px", padding: "28px 24px", border: "1px solid rgba(255,255,255,0.2)" }}>
-          <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.7)", letterSpacing: "2px", textTransform: "uppercase", fontWeight: 800, marginBottom: "14px" }}>Enter Password</div>
+      {/* Full-bleed background photo */}
+      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, #1a3a5c 0%, #0d2137 100%)" }} />
+      <img src={PHOTOS.login} alt="" onLoad={() => setBgLoaded(true)}
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: bgLoaded ? 1 : 0, transition: "opacity 1s" }} />
+      <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.65) 100%)" }} />
+      <div style={{ position: "relative", zIndex: 2, textAlign: "center", maxWidth: "400px", width: "100%", padding: "0 24px", animation: shake ? "shakeAnim 0.4s" : "fadeUp 0.8s" }}>
+        <div style={{ fontFamily: "'Fredoka', sans-serif", fontSize: "13px", letterSpacing: "4px", textTransform: "uppercase", color: "rgba(255,255,255,0.7)", fontWeight: 500 }}>Summer 2026</div>
+        <h1 style={{ fontFamily: "'Fredoka', sans-serif", fontSize: "56px", color: "white", fontWeight: 600, letterSpacing: "-2px", textShadow: "0 4px 30px rgba(0,0,0,0.4)", margin: "4px 0 6px", lineHeight: 1 }}>Puglia</h1>
+        <p style={{ fontSize: "16px", color: "rgba(255,255,255,0.8)", fontWeight: 700, margin: "0 0 36px" }}>Restrepo × Ricardo · Monopoli</p>
+        <div style={{ background: "rgba(255,255,255,0.12)", backdropFilter: "blur(24px)", borderRadius: "22px", padding: "28px 24px", border: "1px solid rgba(255,255,255,0.15)" }}>
+          <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.6)", letterSpacing: "2px", textTransform: "uppercase", fontWeight: 800, marginBottom: "14px" }}>Enter Password</div>
           <input type="password" value={pw} onChange={e => { setPw(e.target.value); setError(false); }}
             onKeyDown={e => e.key === "Enter" && go()} placeholder="••••••••"
-            style={{ width: "100%", padding: "16px 20px", background: "rgba(255,255,255,0.1)", border: "2px solid " + (error ? "#FF4444" : "rgba(255,255,255,0.2)"), borderRadius: "14px", color: "white", fontSize: "18px", outline: "none", textAlign: "center", fontFamily: "'Nunito', sans-serif", fontWeight: 700, boxSizing: "border-box" }} />
-          {error && <div style={{ color: "#FFD4D4", fontSize: "14px", marginTop: "8px", fontWeight: 700 }}>Nope! Try again 🍕</div>}
-          <button onClick={go} style={{ width: "100%", marginTop: "16px", padding: "16px", background: "white", border: "none", borderRadius: "14px", color: "#FF6B35", fontSize: "17px", fontWeight: 800, cursor: "pointer", fontFamily: "'Fredoka', sans-serif", boxShadow: "0 4px 20px rgba(0,0,0,0.15)" }}>Andiamo! 🇮🇹</button>
+            style={{ width: "100%", padding: "16px 20px", background: "rgba(255,255,255,0.08)", border: "2px solid " + (error ? "#FF6B6B" : "rgba(255,255,255,0.15)"), borderRadius: "14px", color: "white", fontSize: "18px", outline: "none", textAlign: "center", fontFamily: "'Nunito', sans-serif", fontWeight: 700, boxSizing: "border-box" }} />
+          {error && <div style={{ color: "#FFB4B4", fontSize: "14px", marginTop: "8px", fontWeight: 700 }}>Nope! Try again 🍕</div>}
+          <button onClick={go} style={{ width: "100%", marginTop: "16px", padding: "16px", background: "rgba(255,255,255,0.95)", border: "none", borderRadius: "14px", color: "#1a3a5c", fontSize: "17px", fontWeight: 800, cursor: "pointer", fontFamily: "'Fredoka', sans-serif", boxShadow: "0 4px 20px rgba(0,0,0,0.2)" }}>Andiamo! 🇮🇹</button>
         </div>
+        <div style={{ marginTop: "24px", fontSize: "12px", color: "rgba(255,255,255,0.4)", fontWeight: 600 }}>Jul 23 – Aug 1 · Monopoli · 🏡</div>
       </div>
       <style>{`@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}@keyframes shakeAnim{0%,100%{transform:translateX(0)}25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}`}</style>
     </div>
