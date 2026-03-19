@@ -8,9 +8,9 @@ const PHOTOS = {
   alberobello: "https://images.pexels.com/photos/29808564/pexels-photo-29808564.jpeg?auto=compress&cs=tinysrgb&w=800",
   matera: "https://images.pexels.com/photos/24777984/pexels-photo-24777984.jpeg?auto=compress&cs=tinysrgb&w=800",
   monopoli: "https://images.pexels.com/photos/30417119/pexels-photo-30417119.jpeg?auto=compress&cs=tinysrgb&w=800",
-  ostuni: "https://images.pexels.com/photos/5974388/pexels-photo-5974388.jpeg?auto=compress&cs=tinysrgb&w=800",
-  lecce: "https://images.pexels.com/photos/5974378/pexels-photo-5974378.jpeg?auto=compress&cs=tinysrgb&w=800",
-  boat: "https://images.pexels.com/photos/163236/luxury-yacht-boat-speed-water-163236.jpeg?auto=compress&cs=tinysrgb&w=800",
+  ostuni: "",
+  lecce: "",
+  boat: "",
   beach: "https://images.pexels.com/photos/1174732/pexels-photo-1174732.jpeg?auto=compress&cs=tinysrgb&w=800",
   // Property photos (HelloApulia CDN - guaranteed)
   hero: "https://cdn.krossbooking.com/hellogroup/images/3/168/17447185887678.jpg",
@@ -60,7 +60,7 @@ const DAILY = [
 
 const TRULLO = {name:"Panoramic Trullo Blue Ocean View",location:"Monopoli, Puglia 🇮🇹",ref:"21305/2026",cost:"€6,525 total (split)",nights:"9 nights · Jul 23 → Aug 1",features:["🌊 Ocean view","🏊 Pool","🏡 Trullo style","🔥 BBQ","🅿️ Parking"]};
 
-function PhotoBg({src,fallback,style,children}){const[loaded,setLoaded]=useState(false);return(<div style={{position:"relative",overflow:"hidden",...style}}><div style={{position:"absolute",inset:0,background:fallback||"linear-gradient(135deg,#00B4D8,#FF6B35)"}}/><img src={src} alt="" onLoad={()=>setLoaded(true)} onError={()=>{}} style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",opacity:loaded?1:0,transition:"opacity 0.6s"}}/>{children}</div>);}
+function PhotoBg({src,fallback,style,children}){const[loaded,setLoaded]=useState(false);return(<div style={{position:"relative",overflow:"hidden",...style}}><div style={{position:"absolute",inset:0,background:fallback||"linear-gradient(135deg,#00B4D8,#FF6B35)"}}/>{src&&<img src={src} alt="" onLoad={()=>setLoaded(true)} onError={()=>{}} style={{position:"absolute",inset:0,width:"100%",height:"100%",objectFit:"cover",opacity:loaded?1:0,transition:"opacity 0.6s"}}/>}{children}</div>);}
 
 function WaveSvg({color}){return(<svg viewBox="0 0 1440 100" style={{display:"block",width:"100%",marginTop:"-50px",position:"relative",zIndex:5}}><path fill={color||"#F0F7FF"} d="M0,40 C360,100 1080,0 1440,60 L1440,100 L0,100 Z"/></svg>);}
 
