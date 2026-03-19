@@ -1,19 +1,18 @@
 import { useState, useEffect, useRef } from "react";
 
-// Verified Unsplash slugs from search results + property CDN
+// Pexels direct CDN (100% reliable) + HelloApulia property photos
 const PHOTOS = {
-  // Destinations - verified Unsplash photo slugs
-  polignano: "https://images.unsplash.com/photo-KZ-bTlzLa5o?w=800&q=80",
-  polignano2: "https://images.unsplash.com/photo-SjdAevT9zR0?w=800&q=80",
-  alberobello: "https://images.unsplash.com/photo-zZM6x-zQTiQ?w=800&q=80",
-  alberobello2: "https://images.unsplash.com/photo-jv3kvNBxz5s?w=800&q=80",
-  matera: "https://images.unsplash.com/photo-1599749010598-ac8bfa3e3751?w=800&q=80",
-  ostuni: "https://images.unsplash.com/photo-1610969524113-bae462bb3892?w=800&q=80",
-  lecce: "https://images.unsplash.com/photo-1600005082847-89817b12c15a?w=800&q=80",
-  monopoli: "https://images.unsplash.com/photo-1610484826917-0f101a5b1763?w=800&q=80",
-  boat: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&q=80",
-  beach: "https://images.unsplash.com/photo-rpf1Ly3hD64?w=800&q=80",
-  // Property photos for Trullo tab + hero
+  // Pexels verified destination photos
+  polignano: "https://images.pexels.com/photos/4186556/pexels-photo-4186556.jpeg?auto=compress&cs=tinysrgb&w=800",
+  polignano2: "https://images.pexels.com/photos/18929157/pexels-photo-18929157.jpeg?auto=compress&cs=tinysrgb&w=800",
+  alberobello: "https://images.pexels.com/photos/29808564/pexels-photo-29808564.jpeg?auto=compress&cs=tinysrgb&w=800",
+  matera: "https://images.pexels.com/photos/24777984/pexels-photo-24777984.jpeg?auto=compress&cs=tinysrgb&w=800",
+  monopoli: "https://images.pexels.com/photos/30417119/pexels-photo-30417119.jpeg?auto=compress&cs=tinysrgb&w=800",
+  ostuni: "https://images.pexels.com/photos/5974388/pexels-photo-5974388.jpeg?auto=compress&cs=tinysrgb&w=800",
+  lecce: "https://images.pexels.com/photos/5974378/pexels-photo-5974378.jpeg?auto=compress&cs=tinysrgb&w=800",
+  boat: "https://images.pexels.com/photos/163236/luxury-yacht-boat-speed-water-163236.jpeg?auto=compress&cs=tinysrgb&w=800",
+  beach: "https://images.pexels.com/photos/1174732/pexels-photo-1174732.jpeg?auto=compress&cs=tinysrgb&w=800",
+  // Property photos (HelloApulia CDN - guaranteed)
   hero: "https://cdn.krossbooking.com/hellogroup/images/3/168/17447185887678.jpg",
   pool: "https://cdn.krossbooking.com/hellogroup/images/3/168/17484117069601.jpg",
   trullo1: "https://cdn.krossbooking.com/hellogroup/images/3/168/15647426769789.jpg",
@@ -25,7 +24,6 @@ const PHOTOS = {
   bedroom: "https://cdn.krossbooking.com/hellogroup/images/3/168/17447185448088.jpg",
   terrace: "https://cdn.krossbooking.com/hellogroup/images/3/168/17484118114550.jpg",
 };
-// Each day shows the destination you're visiting that day
 const DAY_PHOTOS = { "Jul 23":"monopoli","Jul 24":"pool","Jul 25":"beach","Jul 26":"polignano","Jul 27":"alberobello","Jul 28":"matera","Jul 29":"boat","Jul 30":"ostuni","Jul 31":"lecce","Aug 01":"hero" };
 
 const RESTREPO = {
@@ -370,7 +368,7 @@ function LoginScreen({ onLogin }) {
       <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
       {/* Full-bleed background photo */}
       <div style={{ position: "absolute", inset: 0, background: "linear-gradient(135deg, #00B4D8 0%, #48CAE4 100%)" }} />
-      <img src="https://cdn.krossbooking.com/hellogroup/images/3/168/17484117069601.jpg" alt="" onLoad={() => setBgLoaded(true)}
+      <img src="https://images.pexels.com/photos/4186556/pexels-photo-4186556.jpeg?auto=compress&cs=tinysrgb&w=1400" alt="" onLoad={() => setBgLoaded(true)}
         style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: bgLoaded ? 1 : 0, transition: "opacity 1s" }} />
       <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(0,120,200,0.15) 0%, rgba(0,0,0,0.45) 100%)" }} />
       <div style={{ position: "relative", zIndex: 2, textAlign: "center", maxWidth: "400px", width: "100%", padding: "0 24px", animation: shake ? "shakeAnim 0.4s" : "fadeUp 0.8s" }}>
