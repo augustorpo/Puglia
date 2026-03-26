@@ -353,7 +353,64 @@ function TrulloTab() {
   );
 }
 
-const TABS=[{id:"planner",label:"Daily Plan",icon:"📅"},{id:"trullo",label:"Our Trullo",icon:"🏡"},{id:"restrepo",label:"Restrepo",icon:"🌶️"},{id:"ricardo",label:"Ricardo",icon:"🦜"}];
+const WEBCAMS = [
+  { name: "Polignano a Mare", icon: "🌊", desc: "Cliffside town · Adriatic coast", color: "#F77F00", url: "https://www.skylinewebcams.com/en/webcam/italia/puglia/bari/polignano-a-mare.html" },
+  { name: "Ostuni — The White City", icon: "🤍", desc: "Whitewashed hilltop village", color: "#E9C46A", url: "https://www.skylinewebcams.com/en/webcam/italia/puglia/brindisi/ostuni-la-citta-bianca.html" },
+  { name: "Bari Beach", icon: "🏖️", desc: "Sandy beach · Adriatic Sea", color: "#00B4D8", url: "https://www.skylinewebcams.com/en/webcam/italia/puglia/bari/spiaggia-di-bari.html" },
+  { name: "Matera — Sassi", icon: "🪨", desc: "Ancient cave city · UNESCO", color: "#9B2226", url: "https://www.skylinewebcams.com/en/webcam/italia/basilicata/matera/matera-sassi.html" },
+];
+
+function LiveCamsTab() {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+      <div style={{ background: "linear-gradient(135deg, #0077B6, #00B4D8)", borderRadius: "24px", padding: "28px 24px", color: "white", position: "relative", overflow: "hidden" }}>
+        <div style={{ position: "absolute", top: "-15px", right: "-5px", fontSize: "80px", opacity: 0.15 }}>📹</div>
+        <div style={{ position: "relative", zIndex: 2 }}>
+          <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "13px", letterSpacing: "2px", textTransform: "uppercase", opacity: 0.85, fontWeight: 500 }}>🔴 LIVE</div>
+          <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "26px", fontWeight: 600, marginTop: "6px" }}>Live Views of Puglia</div>
+          <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "14px", opacity: 0.85, marginTop: "4px" }}>See where we're going — right now! ☀️</div>
+        </div>
+      </div>
+
+      {WEBCAMS.map((cam, i) => (
+        <div key={i} style={{ background: "white", borderRadius: "22px", overflow: "hidden", boxShadow: "0 4px 15px rgba(0,0,0,0.06)", border: "1px solid #F0F0F0" }}>
+          {/* Camera header */}
+          <div style={{ display: "flex", alignItems: "center", gap: "12px", padding: "18px 20px", borderBottom: "1px solid #F0F0F0" }}>
+            <span style={{ fontSize: "28px" }}>{cam.icon}</span>
+            <div style={{ flex: 1 }}>
+              <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "17px", color: "#1A1A2E", fontWeight: 600 }}>{cam.name}</div>
+              <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "12px", color: "#888", fontWeight: 600 }}>{cam.desc}</div>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
+              <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#FF3B30", animation: "blink 2s infinite" }} />
+              <span style={{ fontFamily: "'Nunito',sans-serif", fontSize: "11px", color: "#FF3B30", fontWeight: 800 }}>LIVE</span>
+            </div>
+          </div>
+          {/* Iframe */}
+          <div style={{ position: "relative", width: "100%", paddingBottom: "56.25%", background: "#111" }}>
+            <iframe
+              src={cam.url}
+              title={cam.name}
+              allow="autoplay"
+              style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
+            />
+          </div>
+          {/* Open full link */}
+          <div style={{ padding: "12px 20px", textAlign: "center" }}>
+            <a href={cam.url} target="_blank" rel="noopener noreferrer"
+              style={{ fontFamily: "'Nunito',sans-serif", fontSize: "13px", color: cam.color, fontWeight: 800, textDecoration: "none" }}>
+              🔗 Open full screen on SkylineWebcams
+            </a>
+          </div>
+        </div>
+      ))}
+
+      <style>{`@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}`}</style>
+    </div>
+  );
+}
+
+const TABS=[{id:"planner",label:"Plan",icon:"📅"},{id:"live",label:"Live",icon:"📹"},{id:"trullo",label:"Trullo",icon:"🏡"},{id:"restrepo",label:"Restrepo",icon:"🌶️"},{id:"ricardo",label:"Ricardo",icon:"🦜"}];
 
 const PASSWORD = "puglia";
 
@@ -390,4 +447,4 @@ function LoginScreen({ onLogin }) {
   );
 }
 
-export default function App(){const[loggedIn,setLoggedIn]=useState(false);const[tab,setTab]=useState("planner");const[fadeIn,setFadeIn]=useState(true);const switchTab=(id)=>{setFadeIn(false);setTimeout(()=>{setTab(id);setFadeIn(true);window.scrollTo({top:0,behavior:"smooth"});},150);};if(!loggedIn)return <LoginScreen onLogin={()=>setLoggedIn(true)}/>;return(<div style={{minHeight:"100vh",background:"#F0F7FF",fontFamily:"'Nunito',sans-serif"}}><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/><style>{`*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}body{background:#F0F7FF}.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);border-top:2px solid #E8E8E8;display:flex;justify-content:space-around;padding:6px 4px env(safe-area-inset-bottom,14px)}.bottom-nav button{display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;color:#AAA;font-family:'Nunito',sans-serif;font-size:12px;font-weight:800;cursor:pointer;padding:8px 14px;border-radius:14px;transition:all 0.2s;min-width:70px}.bottom-nav button.active{color:#FF6B35;background:#FF6B3510}.bottom-nav .nav-icon{font-size:26px}.content{max-width:600px;margin:0 auto;padding:0 16px 100px;transition:all 0.3s}.content.fade-out{opacity:0;transform:translateY(8px)}`}</style><HeroSection/><div className={"content"+(fadeIn?"":" fade-out")}>{tab==="planner"&&<DailyPlannerTab/>}{tab==="trullo"&&<TrulloTab/>}{tab==="restrepo"&&<FamilyTab family="restrepo"/>}{tab==="ricardo"&&<FamilyTab family="ricardo"/>}</div><nav className="bottom-nav">{TABS.map(t=>(<button key={t.id} className={tab===t.id?"active":""} onClick={()=>switchTab(t.id)}><span className="nav-icon">{t.icon}</span>{t.label}</button>))}</nav><div style={{textAlign:"center",padding:"20px 16px 100px",fontFamily:"'Nunito',sans-serif",fontSize:"13px",color:"#CCC",fontWeight:700}}>☀️ Puglia 2026 · Restrepo × Ricardo · Made with 🍕</div></div>);}
+export default function App(){const[loggedIn,setLoggedIn]=useState(false);const[tab,setTab]=useState("planner");const[fadeIn,setFadeIn]=useState(true);const switchTab=(id)=>{setFadeIn(false);setTimeout(()=>{setTab(id);setFadeIn(true);window.scrollTo({top:0,behavior:"smooth"});},150);};if(!loggedIn)return <LoginScreen onLogin={()=>setLoggedIn(true)}/>;return(<div style={{minHeight:"100vh",background:"#F0F7FF",fontFamily:"'Nunito',sans-serif"}}><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/><style>{`*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}body{background:#F0F7FF}.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);border-top:2px solid #E8E8E8;display:flex;justify-content:space-around;padding:6px 4px env(safe-area-inset-bottom,14px)}.bottom-nav button{display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;color:#AAA;font-family:'Nunito',sans-serif;font-size:10px;font-weight:800;cursor:pointer;padding:6px 8px;border-radius:12px;transition:all 0.2s;min-width:56px}.bottom-nav button.active{color:#FF6B35;background:#FF6B3510}.bottom-nav .nav-icon{font-size:26px}.content{max-width:600px;margin:0 auto;padding:0 16px 100px;transition:all 0.3s}.content.fade-out{opacity:0;transform:translateY(8px)}`}</style><HeroSection/><div className={"content"+(fadeIn?"":" fade-out")}>{tab==="planner"&&<DailyPlannerTab/>}{tab==="live"&&<LiveCamsTab/>}{tab==="trullo"&&<TrulloTab/>}{tab==="restrepo"&&<FamilyTab family="restrepo"/>}{tab==="ricardo"&&<FamilyTab family="ricardo"/>}</div><nav className="bottom-nav">{TABS.map(t=>(<button key={t.id} className={tab===t.id?"active":""} onClick={()=>switchTab(t.id)}><span className="nav-icon">{t.icon}</span>{t.label}</button>))}</nav><div style={{textAlign:"center",padding:"20px 16px 100px",fontFamily:"'Nunito',sans-serif",fontSize:"13px",color:"#CCC",fontWeight:700}}>☀️ Puglia 2026 · Restrepo × Ricardo · Made with 🍕</div></div>);}
