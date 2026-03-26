@@ -358,6 +358,7 @@ const WEBCAMS = [
   { name: "Ostuni — The White City", icon: "🤍", desc: "Whitewashed hilltop village", color: "#E9C46A", url: "https://www.skylinewebcams.com/en/webcam/italia/puglia/brindisi/ostuni-la-citta-bianca.html" },
   { name: "Bari Beach", icon: "🏖️", desc: "Sandy beach · Adriatic Sea", color: "#00B4D8", url: "https://www.skylinewebcams.com/en/webcam/italia/puglia/bari/spiaggia-di-bari.html" },
   { name: "Matera — Sassi", icon: "🪨", desc: "Ancient cave city · UNESCO", color: "#9B2226", url: "https://www.skylinewebcams.com/en/webcam/italia/basilicata/matera/matera-sassi.html" },
+  { name: "Craco — Ghost Town", icon: "👻", desc: "Abandoned medieval village · Basilicata", color: "#6B4226", url: "https://www.skylinewebcams.com/en/webcam/italia/basilicata/matera/craco.html" },
 ];
 
 function LiveCamsTab() {
