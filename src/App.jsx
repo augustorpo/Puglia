@@ -363,47 +363,38 @@ const WEBCAMS = [
 
 function LiveCamsTab() {
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
       <div style={{ background: "linear-gradient(135deg, #0077B6, #00B4D8)", borderRadius: "24px", padding: "28px 24px", color: "white", position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", top: "-15px", right: "-5px", fontSize: "80px", opacity: 0.15 }}>📹</div>
         <div style={{ position: "relative", zIndex: 2 }}>
           <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "13px", letterSpacing: "2px", textTransform: "uppercase", opacity: 0.85, fontWeight: 500 }}>🔴 LIVE</div>
           <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "26px", fontWeight: 600, marginTop: "6px" }}>Live Views of Puglia</div>
-          <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "14px", opacity: 0.85, marginTop: "4px" }}>See where we're going — right now! ☀️</div>
+          <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "14px", opacity: 0.85, marginTop: "4px" }}>Tap any card to watch live! ☀️</div>
         </div>
       </div>
 
       {WEBCAMS.map((cam, i) => (
-        <div key={i} style={{ background: "white", borderRadius: "22px", overflow: "hidden", boxShadow: "0 4px 15px rgba(0,0,0,0.06)", border: "1px solid #F0F0F0" }}>
-          {/* Camera header */}
-          <div style={{ display: "flex", alignItems: "center", gap: "12px", padding: "18px 20px", borderBottom: "1px solid #F0F0F0" }}>
-            <span style={{ fontSize: "28px" }}>{cam.icon}</span>
+        <a key={i} href={cam.url} target="_blank" rel="noopener noreferrer"
+          style={{ textDecoration: "none", display: "block", borderRadius: "22px", overflow: "hidden", boxShadow: "0 4px 15px rgba(0,0,0,0.08)", border: "1px solid #F0F0F0", background: "white", transition: "transform 0.2s", cursor: "pointer" }}>
+          {/* Preview banner */}
+          <div style={{ height: "120px", background: cam.gradient || `linear-gradient(135deg, ${cam.color}, ${cam.color}CC)`, position: "relative", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <div style={{ fontSize: "56px", opacity: 0.3 }}>{cam.icon}</div>
+            <div style={{ position: "absolute", top: "12px", right: "14px", display: "flex", alignItems: "center", gap: "5px", background: "rgba(0,0,0,0.4)", backdropFilter: "blur(8px)", borderRadius: "20px", padding: "4px 12px" }}>
+              <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#FF3B30", animation: "blink 2s infinite" }} />
+              <span style={{ fontFamily: "'Nunito',sans-serif", fontSize: "11px", color: "white", fontWeight: 800 }}>LIVE</span>
+            </div>
+            <div style={{ position: "absolute", bottom: "0", left: "0", right: "0", height: "50px", background: "linear-gradient(to top, rgba(0,0,0,0.4), transparent)" }} />
+          </div>
+          {/* Info */}
+          <div style={{ padding: "16px 20px", display: "flex", alignItems: "center", gap: "14px" }}>
+            <span style={{ fontSize: "32px" }}>{cam.icon}</span>
             <div style={{ flex: 1 }}>
               <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "17px", color: "#1A1A2E", fontWeight: 600 }}>{cam.name}</div>
               <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "12px", color: "#888", fontWeight: 600 }}>{cam.desc}</div>
             </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-              <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#FF3B30", animation: "blink 2s infinite" }} />
-              <span style={{ fontFamily: "'Nunito',sans-serif", fontSize: "11px", color: "#FF3B30", fontWeight: 800 }}>LIVE</span>
-            </div>
+            <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "13px", color: cam.color, fontWeight: 800 }}>Watch →</div>
           </div>
-          {/* Iframe */}
-          <div style={{ position: "relative", width: "100%", paddingBottom: "56.25%", background: "#111" }}>
-            <iframe
-              src={cam.url}
-              title={cam.name}
-              allow="autoplay"
-              style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: "none" }}
-            />
-          </div>
-          {/* Open full link */}
-          <div style={{ padding: "12px 20px", textAlign: "center" }}>
-            <a href={cam.url} target="_blank" rel="noopener noreferrer"
-              style={{ fontFamily: "'Nunito',sans-serif", fontSize: "13px", color: cam.color, fontWeight: 800, textDecoration: "none" }}>
-              🔗 Open full screen on SkylineWebcams
-            </a>
-          </div>
-        </div>
+        </a>
       ))}
 
       <style>{`@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}`}</style>
