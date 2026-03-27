@@ -402,7 +402,44 @@ function LiveCamsTab() {
   );
 }
 
-const TABS=[{id:"planner",label:"Plan",icon:"📅"},{id:"live",label:"Live",icon:"📹"},{id:"trullo",label:"Trullo",icon:"🏡"},{id:"restrepo",label:"Restrepo",icon:"🌶️"},{id:"ricardo",label:"Ricardo",icon:"🦜"}];
+function PicturesTab() {
+  const pics = [
+    { src: "https://cdn.krossbooking.com/hellogroup/images/3/168/17484118072474.jpg", caption: "The garden said 'welcome home' 🌿", who: "📸 Trullo vibes" },
+    { src: "https://cdn.krossbooking.com/hellogroup/images/3/168/17484117069601.jpg", caption: "First one in the pool wins! 🏊💦", who: "📸 Day 1 energy" },
+    { src: "https://cdn.krossbooking.com/hellogroup/images/3/168/17447185887678.jpg", caption: "Not a bad office view... 😎🇮🇹", who: "📸 Living the dream" },
+    { src: "https://cdn.krossbooking.com/hellogroup/images/3/168/17484118114550.jpg", caption: "Aperitivo o'clock. Every hour is aperitivo o'clock. 🍹", who: "📸 When in Puglia..." },
+  ];
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+      <div style={{ background: "linear-gradient(135deg, #F72585, #7209B7)", borderRadius: "24px", padding: "28px 24px", color: "white", position: "relative", overflow: "hidden" }}>
+        <div style={{ position: "absolute", top: "-15px", right: "-5px", fontSize: "80px", opacity: 0.15 }}>📸</div>
+        <div style={{ position: "relative", zIndex: 2 }}>
+          <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "13px", letterSpacing: "2px", textTransform: "uppercase", opacity: 0.85, fontWeight: 500 }}>🤳 MEMORIES</div>
+          <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "26px", fontWeight: 600, marginTop: "6px" }}>Trip Pictures</div>
+          <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "14px", opacity: 0.85, marginTop: "4px" }}>The best moments from our Puglia adventure! 🍕</div>
+        </div>
+      </div>
+      {pics.map((p, i) => (
+        <div key={i} style={{ background: "white", borderRadius: "22px", overflow: "hidden", boxShadow: "0 4px 15px rgba(0,0,0,0.08)", border: "1px solid #F0F0F0" }}>
+          <div style={{ position: "relative", width: "100%", paddingBottom: "75%", background: "#F0F0F0" }}>
+            <img src={p.src} alt={p.caption} style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+          </div>
+          <div style={{ padding: "16px 20px" }}>
+            <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "17px", color: "#1A1A2E", fontWeight: 600, lineHeight: 1.4 }}>{p.caption}</div>
+            <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "12px", color: "#AAA", fontWeight: 700, marginTop: "6px" }}>{p.who}</div>
+          </div>
+        </div>
+      ))}
+      <div style={{ background: "white", borderRadius: "22px", padding: "40px 24px", textAlign: "center", border: "2px dashed #DDD" }}>
+        <div style={{ fontSize: "48px", marginBottom: "8px" }}>📷</div>
+        <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "18px", color: "#AAA", fontWeight: 600 }}>More pics coming soon!</div>
+        <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "13px", color: "#CCC", fontWeight: 700, marginTop: "4px" }}>Stay tuned for the real ones... 😂🇮🇹</div>
+      </div>
+    </div>
+  );
+}
+
+const TABS=[{id:"planner",label:"Plan",icon:"📅"},{id:"live",label:"Live",icon:"📹"},{id:"pics",label:"Pics",icon:"📸"},{id:"trullo",label:"Trullo",icon:"🏡"},{id:"restrepo",label:"Restrepo",icon:"🌶️"},{id:"ricardo",label:"Ricardo",icon:"🦜"}];
 
 const PASSWORD = "puglia";
 
@@ -439,4 +476,4 @@ function LoginScreen({ onLogin }) {
   );
 }
 
-export default function App(){const[loggedIn,setLoggedIn]=useState(false);const[tab,setTab]=useState("planner");const[fadeIn,setFadeIn]=useState(true);const switchTab=(id)=>{setFadeIn(false);setTimeout(()=>{setTab(id);setFadeIn(true);window.scrollTo({top:0,behavior:"smooth"});},150);};if(!loggedIn)return <LoginScreen onLogin={()=>setLoggedIn(true)}/>;return(<div style={{minHeight:"100vh",background:"#F0F7FF",fontFamily:"'Nunito',sans-serif"}}><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/><style>{`*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}body{background:#F0F7FF}.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);border-top:2px solid #E8E8E8;display:flex;justify-content:space-around;padding:6px 4px env(safe-area-inset-bottom,14px)}.bottom-nav button{display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;color:#AAA;font-family:'Nunito',sans-serif;font-size:10px;font-weight:800;cursor:pointer;padding:6px 8px;border-radius:12px;transition:all 0.2s;min-width:56px}.bottom-nav button.active{color:#FF6B35;background:#FF6B3510}.bottom-nav .nav-icon{font-size:26px}.content{max-width:600px;margin:0 auto;padding:0 16px 100px;transition:all 0.3s}.content.fade-out{opacity:0;transform:translateY(8px)}`}</style><HeroSection/><div className={"content"+(fadeIn?"":" fade-out")}>{tab==="planner"&&<DailyPlannerTab/>}{tab==="live"&&<LiveCamsTab/>}{tab==="trullo"&&<TrulloTab/>}{tab==="restrepo"&&<FamilyTab family="restrepo"/>}{tab==="ricardo"&&<FamilyTab family="ricardo"/>}</div><nav className="bottom-nav">{TABS.map(t=>(<button key={t.id} className={tab===t.id?"active":""} onClick={()=>switchTab(t.id)}><span className="nav-icon">{t.icon}</span>{t.label}</button>))}</nav><div style={{textAlign:"center",padding:"20px 16px 100px",fontFamily:"'Nunito',sans-serif",fontSize:"13px",color:"#CCC",fontWeight:700}}>☀️ Puglia 2026 · Restrepo × Ricardo · Made with 🍕</div></div>);}
+export default function App(){const[loggedIn,setLoggedIn]=useState(false);const[tab,setTab]=useState("planner");const[fadeIn,setFadeIn]=useState(true);const switchTab=(id)=>{setFadeIn(false);setTimeout(()=>{setTab(id);setFadeIn(true);window.scrollTo({top:0,behavior:"smooth"});},150);};if(!loggedIn)return <LoginScreen onLogin={()=>setLoggedIn(true)}/>;return(<div style={{minHeight:"100vh",background:"#F0F7FF",fontFamily:"'Nunito',sans-serif"}}><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/><style>{`*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}body{background:#F0F7FF}.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);border-top:2px solid #E8E8E8;display:flex;justify-content:space-around;padding:6px 4px env(safe-area-inset-bottom,14px)}.bottom-nav button{display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;color:#AAA;font-family:'Nunito',sans-serif;font-size:9px;font-weight:800;cursor:pointer;padding:6px 4px;border-radius:12px;transition:all 0.2s;min-width:48px}.bottom-nav button.active{color:#FF6B35;background:#FF6B3510}.bottom-nav .nav-icon{font-size:26px}.content{max-width:600px;margin:0 auto;padding:0 16px 100px;transition:all 0.3s}.content.fade-out{opacity:0;transform:translateY(8px)}`}</style><HeroSection/><div className={"content"+(fadeIn?"":" fade-out")}>{tab==="planner"&&<DailyPlannerTab/>}{tab==="live"&&<LiveCamsTab/>}{tab==="pics"&&<PicturesTab/>}{tab==="trullo"&&<TrulloTab/>}{tab==="restrepo"&&<FamilyTab family="restrepo"/>}{tab==="ricardo"&&<FamilyTab family="ricardo"/>}</div><nav className="bottom-nav">{TABS.map(t=>(<button key={t.id} className={tab===t.id?"active":""} onClick={()=>switchTab(t.id)}><span className="nav-icon">{t.icon}</span>{t.label}</button>))}</nav><div style={{textAlign:"center",padding:"20px 16px 100px",fontFamily:"'Nunito',sans-serif",fontSize:"13px",color:"#CCC",fontWeight:700}}>☀️ Puglia 2026 · Restrepo × Ricardo · Made with 🍕</div></div>);}
