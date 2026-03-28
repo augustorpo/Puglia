@@ -408,7 +408,7 @@ function PicturesTab() {
     { src: "/pics/pic2.jpg", caption: "Otra perspectiva del mapa... 🥾🇮🇹👢", who: "📸 La Bota italiana" },
     { src: "https://cdn.krossbooking.com/hellogroup/images/3/168/17447185887678.jpg", caption: "Not a bad office view... 😎🇮🇹", who: "📸 Living the dream" },
     { src: "/pics/aperol.jpg", caption: "Aperitivo o'clock 🍹 Every hour is aperitivo o'clock!", who: "📸 When in Puglia..." },
-    { src: "https://cdn.krossbooking.com/hellogroup/images/3/168/17447185448088.jpg", caption: "Siesta mode: ACTIVATED 😴💤", who: "📸 After too much pasta" },
+    { src: "https://cdn.krossbooking.com/hellogroup/images/3/168/17484118072474.jpg", caption: "Siesta mode: ACTIVATED 😴💤", who: "📸 After too much pasta" },
   ];
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
