@@ -406,8 +406,8 @@ function PicturesTab() {
   const pics = [
     { src: "/pics/pic1.jpg", caption: "Nos están escuchando... 👀🔊📦", who: "📸 Restrepo HQ" },
     { src: "/pics/pic2.jpg", caption: "Otra perspectiva del mapa... 🥾🇮🇹👢", who: "📸 La Bota italiana" },
-    { src: "https://cdn.krossbooking.com/hellogroup/images/3/168/15647426769789.jpg", caption: "Home sweet trullo 🏡 Can't believe this is ours for 10 days!", who: "📸 Trullo life" },
-    { src: "https://cdn.krossbooking.com/hellogroup/images/3/168/15647425914640.jpg", caption: "Dinner for 7 under the stars tonight 🌙🍷", who: "📸 Al fresco dining" },
+    { src: "https://cdn.krossbooking.com/hellogroup/images/3/168/17447185887678.jpg", caption: "Not a bad office view... 😎🇮🇹", who: "📸 Living the dream" },
+    { src: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Aperol_Spritz_2014a.jpg/600px-Aperol_Spritz_2014a.jpg", caption: "Aperitivo o'clock 🍹 Every hour is aperitivo o'clock!", who: "📸 When in Puglia..." },
     { src: "https://cdn.krossbooking.com/hellogroup/images/3/168/17447185448088.jpg", caption: "Siesta mode: ACTIVATED 😴💤", who: "📸 After too much pasta" },
   ];
   return (
