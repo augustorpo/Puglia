@@ -407,7 +407,7 @@ function PicturesTab() {
     { src: "/pics/pic1.jpg", caption: "Nos están escuchando... 👀🔊📦", who: "📸 Restrepo HQ" },
     { src: "/pics/pic2.jpg", caption: "Otra perspectiva del mapa... 🥾🇮🇹👢", who: "📸 La Bota italiana" },
     { src: "https://cdn.krossbooking.com/hellogroup/images/3/168/17447185887678.jpg", caption: "Not a bad office view... 😎🇮🇹", who: "📸 Living the dream" },
-    { src: "https://cdn.krossbooking.com/hellogroup/images/3/168/15647425914640.jpg", caption: "Aperitivo o'clock 🍹 Every hour is aperitivo o'clock!", who: "📸 When in Puglia..." },
+    { src: "/pics/aperol.jpg", caption: "Aperitivo o'clock 🍹 Every hour is aperitivo o'clock!", who: "📸 When in Puglia..." },
     { src: "https://cdn.krossbooking.com/hellogroup/images/3/168/17447185448088.jpg", caption: "Siesta mode: ACTIVATED 😴💤", who: "📸 After too much pasta" },
   ];
   return (
