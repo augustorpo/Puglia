@@ -405,13 +405,13 @@ function LiveCamsTab() {
 
 function PicturesTab() {
   const pics = [
-    { src: "/pics/pic1.jpg", caption: "Nos están escuchando... 👀🔊📦", who: "📸 Restrepo HQ" },
-    { src: "/pics/pic2.jpg", caption: "Otra perspectiva del mapa... 🥾🇮🇹👢", who: "📸 La Bota italiana" },
-    { src: "/pics/pic3.jpg", caption: "Titi was here... 👀✍️🤫", who: "📸 El Titi dejando huella" },
-    { src: "/pics/pic4.jpg", caption: "Trip planning... suspiciously 🍷🤔😏", who: "📸 The masterminds at work" },
-    { src: "https://cdn.krossbooking.com/hellogroup/images/3/168/17447185887678.jpg", caption: "Not a bad office view... 😎🇮🇹", who: "📸 Living the dream" },
-    { src: "/pics/aperol.jpg", caption: "Aperitivo o'clock 🍹 Every hour is aperitivo o'clock!", who: "📸 When in Puglia..." },
-    { src: "https://cdn.krossbooking.com/hellogroup/images/3/168/17484118072474.jpg", caption: "Siesta mode: ACTIVATED 😴💤", who: "📸 After too much pasta" },
+    { src: "/pics/pic1.jpg", caption: "Nos están escuchando... 👀🔊📦", who: "📸 Restrepo HQ · La caja sabe demasiado. Hay que eliminarla antes del viaje." },
+    { src: "/pics/pic2.jpg", caption: "Otra perspectiva del mapa... 🥾🇮🇹👢", who: "📸 Geography class · When the teacher asks 'show me Italy' and you point at the shoe store" },
+    { src: "/pics/pic3.jpg", caption: "Titi was here... 👀✍️🤫", who: "📸 El Titi dejando huella · Vandalism level: kindergarten. Intent level: criminal mastermind." },
+    { src: "/pics/pic4.jpg", caption: "Trip planning... suspiciously 🍷🤔😏", who: "📸 The masterminds · 4 adults, 2 wine bottles, 0 plans finalized. Classic." },
+    { src: "https://cdn.krossbooking.com/hellogroup/images/3/168/17447185887678.jpg", caption: "Not a bad office view... 😎🇮🇹", who: "📸 Living the dream · Monday morning emails from here hit different" },
+    { src: "/pics/aperol.jpg", caption: "Aperitivo o'clock 🍹 Every hour is aperitivo o'clock!", who: "📸 Doctor's orders · Prescribed: 3 spritz daily. Side effects: happiness, dancing, questionable decisions." },
+    { src: "https://cdn.krossbooking.com/hellogroup/images/3/168/17484118072474.jpg", caption: "Siesta mode: ACTIVATED 😴💤", who: "📸 After too much pasta · 'I'll just close my eyes for 5 minutes' — wakes up at dinner time" },
   ];
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
