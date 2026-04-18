@@ -430,8 +430,8 @@ function PicturesTab() {
             <img src={p.src} alt={p.caption} style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover" }} />
           </div>
           <div style={{ padding: "16px 20px" }}>
-            <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "17px", color: "#1A1A2E", fontWeight: 600, lineHeight: 1.4 }}>{p.caption}</div>
-            <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "12px", color: "#AAA", fontWeight: 700, marginTop: "6px" }}>{p.who}</div>
+            <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "18px", color: "#1A1A2E", fontWeight: 600, lineHeight: 1.4 }}>{p.caption}</div>
+            <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "14px", color: "#555", fontWeight: 700, marginTop: "8px", lineHeight: 1.5, fontStyle: "italic" }}>{p.who}</div>
           </div>
         </div>
       ))}
