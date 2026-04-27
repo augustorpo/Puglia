@@ -411,6 +411,7 @@ function PicturesTab() {
     { src: "/pics/pic4.jpg", caption: "Trip planning... suspiciously 🍷🤔😏", who: "📸 The masterminds · 4 adults, 2 wine bottles, 0 plans finalized. Classic." },
     { src: "/pics/pic5.jpg", caption: "Already practicing the Italian lifestyle 🐕🇮🇹", who: "📸 Lagotto vibes · 'You said the trullo is pet friendly, right? ...RIGHT?'" },
     { src: "/pics/pic6.jpg", caption: "Gondola life 🛶☀️🐾", who: "📸 Capitano Floof · The only crew member who doesn't complain about the rowing. Also the only one not rowing." },
+    { src: "/pics/pic7.jpg", caption: "La Bota from the VIP section 🛸🇮🇹✨", who: "📸 NASA approved · Even from space, Italy is just showing off. That heel glow? Puglia waiting for us." },
     { src: "https://cdn.krossbooking.com/hellogroup/images/3/168/17447185887678.jpg", caption: "Not a bad office view... 😎🇮🇹", who: "📸 Living the dream · Monday morning emails from here hit different" },
     { src: "/pics/aperol.jpg", caption: "Aperitivo o'clock 🍹 Every hour is aperitivo o'clock!", who: "📸 Doctor's orders · Prescribed: 3 spritz daily. Side effects: happiness, dancing, questionable decisions." },
     { src: "https://cdn.krossbooking.com/hellogroup/images/3/168/17484118072474.jpg", caption: "Siesta mode: ACTIVATED 😴💤", who: "📸 After too much pasta · 'I'll just close my eyes for 5 minutes' — wakes up at dinner time" },
