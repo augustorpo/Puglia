@@ -449,7 +449,109 @@ function PicturesTab() {
   );
 }
 
-const TABS=[{id:"planner",label:"Plan",icon:"📅"},{id:"live",label:"Live",icon:"📹"},{id:"pics",label:"Pics",icon:"📸"},{id:"trullo",label:"Trullo",icon:"🏡"},{id:"restrepo",label:"Restrepo",icon:"🌶️"},{id:"ricardo",label:"Ricardo",icon:"🦜"}];
+function ChatTab() {
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => { scrollToBottom(); }, [messages]);
+
+  const sendMessage = async () => {
+    if (!input.trim() || loading) return;
+    const userMsg = input.trim();
+    setInput("");
+    const newMessages = [...messages, { role: "user", content: userMsg }];
+    setMessages(newMessages);
+    setLoading(true);
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: newMessages }),
+      });
+      const data = await res.json();
+      if (data.response) {
+        setMessages([...newMessages, { role: "assistant", content: data.response }]);
+      } else {
+        setMessages([...newMessages, { role: "assistant", content: "Hmm, something went wrong. Try again? 🤔" }]);
+      }
+    } catch (err) {
+      setMessages([...newMessages, { role: "assistant", content: "Connection error — check your internet! 📡" }]);
+    }
+    setLoading(false);
+  };
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "0", height: "calc(100vh - 180px)", maxHeight: "700px" }}>
+      {/* Header */}
+      <div style={{ background: "linear-gradient(135deg, #7209B7, #F72585)", borderRadius: "24px 24px 0 0", padding: "24px", color: "white", position: "relative", overflow: "hidden" }}>
+        <div style={{ position: "absolute", top: "-15px", right: "-5px", fontSize: "80px", opacity: 0.15 }}>🤖</div>
+        <div style={{ position: "relative", zIndex: 2 }}>
+          <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "13px", letterSpacing: "2px", textTransform: "uppercase", opacity: 0.85, fontWeight: 500 }}>🟢 ONLINE</div>
+          <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "24px", fontWeight: 600, marginTop: "4px" }}>AI Travel Advisor</div>
+          <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "13px", opacity: 0.85, marginTop: "2px" }}>Ask me anything about the trip! 🇮🇹</div>
+        </div>
+      </div>
+
+      {/* Messages */}
+      <div style={{ flex: 1, overflowY: "auto", padding: "16px", background: "white", display: "flex", flexDirection: "column", gap: "12px", borderLeft: "1px solid #F0F0F0", borderRight: "1px solid #F0F0F0" }}>
+        {messages.length === 0 && (
+          <div style={{ textAlign: "center", padding: "40px 20px" }}>
+            <div style={{ fontSize: "48px", marginBottom: "12px" }}>🤖🇮🇹</div>
+            <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "18px", color: "#1A1A2E", fontWeight: 600 }}>Ciao! I'm your AI Travel Advisor</div>
+            <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "14px", color: "#888", fontWeight: 600, marginTop: "8px", lineHeight: 1.6 }}>
+              I know everything about the Puglia trip — dates, trullo, destinations, flights, drive times. Ask me anything!
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginTop: "20px" }}>
+              {["What should we eat in Polignano? 🍝", "How far is Matera? 🚗", "Best beach near Monopoli? 🏖️", "Tell me about our trullo 🏡"].map((q, i) => (
+                <button key={i} onClick={() => { setInput(q); }} style={{ background: "#F8F4FF", border: "1px solid #E8E0F0", borderRadius: "14px", padding: "12px 16px", fontFamily: "'Nunito',sans-serif", fontSize: "14px", color: "#7209B7", fontWeight: 700, cursor: "pointer", textAlign: "left" }}>{q}</button>
+              ))}
+            </div>
+          </div>
+        )}
+        {messages.map((msg, i) => (
+          <div key={i} style={{ display: "flex", justifyContent: msg.role === "user" ? "flex-end" : "flex-start" }}>
+            <div style={{
+              maxWidth: "85%", padding: "12px 16px", borderRadius: msg.role === "user" ? "18px 18px 4px 18px" : "18px 18px 18px 4px",
+              background: msg.role === "user" ? "linear-gradient(135deg, #7209B7, #9D4EDD)" : "#F4F4F4",
+              color: msg.role === "user" ? "white" : "#1A1A2E",
+              fontFamily: "'Nunito',sans-serif", fontSize: "15px", fontWeight: 600, lineHeight: 1.5, whiteSpace: "pre-wrap"
+            }}>
+              {msg.content}
+            </div>
+          </div>
+        ))}
+        {loading && (
+          <div style={{ display: "flex", justifyContent: "flex-start" }}>
+            <div style={{ padding: "12px 20px", borderRadius: "18px 18px 18px 4px", background: "#F4F4F4", fontFamily: "'Nunito',sans-serif", fontSize: "15px", color: "#888" }}>
+              Thinking... 🤔
+            </div>
+          </div>
+        )}
+        <div ref={messagesEndRef} />
+      </div>
+
+      {/* Input */}
+      <div style={{ display: "flex", gap: "8px", padding: "12px 16px", background: "white", borderRadius: "0 0 24px 24px", border: "1px solid #F0F0F0" }}>
+        <input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === "Enter" && sendMessage()}
+          placeholder="Ask about the trip..."
+          style={{ flex: 1, padding: "14px 18px", borderRadius: "16px", border: "2px solid #E8E0F0", fontFamily: "'Nunito',sans-serif", fontSize: "15px", fontWeight: 600, outline: "none", background: "#FAFAFA", color: "#1A1A2E", boxSizing: "border-box" }} />
+        <button onClick={sendMessage} disabled={loading}
+          style={{ padding: "14px 20px", borderRadius: "16px", border: "none", background: loading ? "#CCC" : "linear-gradient(135deg, #7209B7, #F72585)", color: "white", fontFamily: "'Fredoka',sans-serif", fontSize: "16px", fontWeight: 600, cursor: loading ? "default" : "pointer" }}>
+          {loading ? "..." : "Send ✈️"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+const TABS=[{id:"planner",label:"Plan",icon:"📅"},{id:"live",label:"Live",icon:"📹"},{id:"pics",label:"Pics",icon:"📸"},{id:"trullo",label:"Trullo",icon:"🏡"},{id:"chat",label:"Chat",icon:"🤖"},{id:"restrepo",label:"Restrepo",icon:"🌶️"},{id:"ricardo",label:"Ricardo",icon:"🦜"}];
 
 const PASSWORD = "puglia";
 
@@ -486,4 +588,4 @@ function LoginScreen({ onLogin }) {
   );
 }
 
-export default function App(){const[loggedIn,setLoggedIn]=useState(false);const[tab,setTab]=useState("planner");const[fadeIn,setFadeIn]=useState(true);const switchTab=(id)=>{setFadeIn(false);setTimeout(()=>{setTab(id);setFadeIn(true);window.scrollTo({top:0,behavior:"smooth"});},150);};if(!loggedIn)return <LoginScreen onLogin={()=>setLoggedIn(true)}/>;return(<div style={{minHeight:"100vh",background:"#F0F7FF",fontFamily:"'Nunito',sans-serif"}}><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/><style>{`*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}body{background:#F0F7FF}.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);border-top:2px solid #E8E8E8;display:flex;justify-content:space-around;padding:6px 4px env(safe-area-inset-bottom,14px)}.bottom-nav button{display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;color:#AAA;font-family:'Nunito',sans-serif;font-size:9px;font-weight:800;cursor:pointer;padding:6px 4px;border-radius:12px;transition:all 0.2s;min-width:48px}.bottom-nav button.active{color:#FF6B35;background:#FF6B3510}.bottom-nav .nav-icon{font-size:26px}.content{max-width:600px;margin:0 auto;padding:0 16px 100px;transition:all 0.3s}.content.fade-out{opacity:0;transform:translateY(8px)}`}</style><HeroSection/><div className={"content"+(fadeIn?"":" fade-out")}>{tab==="planner"&&<DailyPlannerTab/>}{tab==="live"&&<LiveCamsTab/>}{tab==="pics"&&<PicturesTab/>}{tab==="trullo"&&<TrulloTab/>}{tab==="restrepo"&&<FamilyTab family="restrepo"/>}{tab==="ricardo"&&<FamilyTab family="ricardo"/>}</div><nav className="bottom-nav">{TABS.map(t=>(<button key={t.id} className={tab===t.id?"active":""} onClick={()=>switchTab(t.id)}><span className="nav-icon">{t.icon}</span>{t.label}</button>))}</nav><div style={{textAlign:"center",padding:"20px 16px 100px",fontFamily:"'Nunito',sans-serif",fontSize:"13px",color:"#CCC",fontWeight:700}}>☀️ Puglia 2026 · Restrepo × Ricardo · Made with 🍕</div></div>);}
+export default function App(){const[loggedIn,setLoggedIn]=useState(false);const[tab,setTab]=useState("planner");const[fadeIn,setFadeIn]=useState(true);const switchTab=(id)=>{setFadeIn(false);setTimeout(()=>{setTab(id);setFadeIn(true);window.scrollTo({top:0,behavior:"smooth"});},150);};if(!loggedIn)return <LoginScreen onLogin={()=>setLoggedIn(true)}/>;return(<div style={{minHeight:"100vh",background:"#F0F7FF",fontFamily:"'Nunito',sans-serif"}}><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/><style>{`*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}body{background:#F0F7FF}.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);border-top:2px solid #E8E8E8;display:flex;justify-content:space-around;padding:6px 4px env(safe-area-inset-bottom,14px)}.bottom-nav button{display:flex;flex-direction:column;align-items:center;gap:1px;background:none;border:none;color:#AAA;font-family:'Nunito',sans-serif;font-size:8px;font-weight:800;cursor:pointer;padding:5px 2px;border-radius:10px;transition:all 0.2s;min-width:42px}.bottom-nav button.active{color:#FF6B35;background:#FF6B3510}.bottom-nav .nav-icon{font-size:22px}.content{max-width:600px;margin:0 auto;padding:0 16px 100px;transition:all 0.3s}.content.fade-out{opacity:0;transform:translateY(8px)}`}</style><HeroSection/><div className={"content"+(fadeIn?"":" fade-out")}>{tab==="planner"&&<DailyPlannerTab/>}{tab==="live"&&<LiveCamsTab/>}{tab==="pics"&&<PicturesTab/>}{tab==="trullo"&&<TrulloTab/>}{tab==="chat"&&<ChatTab/>}{tab==="restrepo"&&<FamilyTab family="restrepo"/>}{tab==="ricardo"&&<FamilyTab family="ricardo"/>}</div><nav className="bottom-nav">{TABS.map(t=>(<button key={t.id} className={tab===t.id?"active":""} onClick={()=>switchTab(t.id)}><span className="nav-icon">{t.icon}</span>{t.label}</button>))}</nav><div style={{textAlign:"center",padding:"20px 16px 100px",fontFamily:"'Nunito',sans-serif",fontSize:"13px",color:"#CCC",fontWeight:700}}>☀️ Puglia 2026 · Restrepo × Ricardo · Made with 🍕</div></div>);}
