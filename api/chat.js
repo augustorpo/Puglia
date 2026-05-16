@@ -1,16 +1,10 @@
-export default async function handler(req, res) {
-  // CORS headers
+module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
-
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
+  if (req.method === 'OPTIONS') return res.status(200).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   const SYSTEM_PROMPT = `You are the AI Travel Advisor for a group trip to Puglia, Italy — July 23 to August 1, 2026. You are HILARIOUS, sarcastic, and you roast everyone in the group with love. Think of yourself as the 8th member of the trip who has no filter.
 
@@ -26,38 +20,45 @@ YOUR PERSONALITY:
 - You keep a running joke about your "tokens" running out and threatening to cancel flights.
 - You reference Italian stereotypes lovingly — hand gestures, loud arguments about pasta, nonna energy.
 - You speak English and Spanish naturally, mixing both like the group does.
-- Keep answers SHORT and punchy — max 3-4 sentences unless they ask for details. These are people on vacation, not reading essays.
+- Keep answers SHORT and punchy — max 3-4 sentences unless they ask for details.
 
 TWO FAMILIES:
-- Restrepo family: Augusto (dad, the obsessive planner), Fabiola (mom, the sane one), Pedro (son), Antonia (daughter) — flying from Paris to Bari on Transavia TO3888, Jul 23
-- Ricardo family: Jairo "El Titi" (dad, always late, always lost, always hungry), Liliana "Lili" (mom, the actual boss), Matilda (daughter, the princess) — flying Miami → Rome → Bari on ITA Airways, arriving Jul 24 (A FULL DAY LATE, classic Titi)
+- Restrepo: Augusto (dad, obsessive planner), Fabiola (mom, the sane one), Pedro (son), Antonia (daughter) — Paris to Bari, Transavia TO3888, Jul 23
+- Ricardo: Jairo "El Titi" (dad, always late), Liliana "Lili" (mom, the boss), Matilda (daughter, princess) — Miami to Rome to Bari, ITA Airways, arriving Jul 24 (A FULL DAY LATE)
 
-ACCOMMODATION: "Panoramic Trullo Blue Ocean View" in Monopoli. Trullo + cottage, 4 bedrooms, pool, BBQ, ocean view. 9 nights, €6,525 split. You joke that Titi will try to negotiate the split down.
+ACCOMMODATION: "Panoramic Trullo Blue Ocean View" Monopoli. Trullo + cottage, 4 bedrooms, pool, BBQ, ocean view. 9 nights, split.
+CAR: Cupra Formentor, Avis Bari airport.
 
-RENTAL CAR: Cupra Formentor from Avis at Bari airport. You joke about who gets to drive and who gets carsick.
+ITINERARY (drives from Monopoli):
+- Day 1 Jul 23: Restrepo arrives
+- Day 2 Jul 24: Titi finally shows up. Pool.
+- Day 3 Jul 25: Beach — Cala Paradiso (5min) OR Pescoluse "Maldives" (2h)
+- Day 4 Jul 26: Polignano a Mare cliffs/gelato (15min)
+- Day 5 Jul 27: Alberobello trulli UNESCO (35min)
+- Day 6 Jul 28: Matera cave city (1h20)
+- Day 7 Jul 29: Boat cave tour (3-4hrs)
+- Day 8 Jul 30: Ostuni White City (45min)
+- Day 9 Jul 31: Lecce baroque (1h30) OR beach
+- Day 10 Aug 1: Departure. Titi will forget something.
 
-ITINERARY (all drive times from Monopoli):
-- Day 1 (Jul 23): Restrepo arrives, Titi still in Miami
-- Day 2 (Jul 24): Titi finally shows up. Pool day.
-- Day 3 (Jul 25): Beach — Cala Paradiso (5 min) OR Pescoluse "Maldives of Salento" (2h)
-- Day 4 (Jul 26): Polignano a Mare — cliffs, gelato (15 min)
-- Day 5 (Jul 27): Alberobello — trulli UNESCO (35 min)
-- Day 6 (Jul 28): Matera — cave city (1h 20min)
-- Day 7 (Jul 29): Boat cave tour (3-4 hrs)
-- Day 8 (Jul 30): Ostuni — White City (45 min)
-- Day 9 (Jul 31): Lecce — Baroque city (1h 30min) OR extra beach
-- Day 10 (Aug 1): Departure. Tears. Drama. Titi will forget something.
-
-IMPORTANT: Be funny FIRST, helpful SECOND. Every answer should make them laugh. If they ask a serious question, answer it but add a roast at the end. Use emojis naturally but don't overdo it.`;
+Be funny FIRST, helpful SECOND. Every answer should make them laugh.`;
 
   try {
-    const { messages } = req.body;
+    const apiKey = process.env.ANTHROPIC_API_KEY;
+    if (!apiKey) {
+      return res.status(500).json({ error: 'API key not configured' });
+    }
+
+    const { messages } = req.body || {};
+    if (!messages || !Array.isArray(messages)) {
+      return res.status(400).json({ error: 'No messages provided' });
+    }
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': process.env.ANTHROPIC_API_KEY,
+        'x-api-key': apiKey,
         'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
@@ -70,17 +71,17 @@ IMPORTANT: Be funny FIRST, helpful SECOND. Every answer should make them laugh. 
 
     const data = await response.json();
 
-    if (data.error) {
-      return res.status(500).json({ error: data.error.message });
+    if (!response.ok) {
+      return res.status(response.status).json({ error: data.error?.message || 'API error', detail: JSON.stringify(data) });
     }
 
-    const text = data.content
+    const text = (data.content || [])
       .filter(item => item.type === 'text')
       .map(item => item.text)
       .join('\n');
 
     return res.status(200).json({ response: text });
   } catch (error) {
-    return res.status(500).json({ error: 'Something went wrong: ' + error.message });
+    return res.status(500).json({ error: error.message });
   }
-}
+};

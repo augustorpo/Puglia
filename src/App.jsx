@@ -479,7 +479,7 @@ function ChatTab() {
       if (data.response) {
         setMessages([...newMessages, { role: "assistant", content: data.response }]);
       } else {
-        setMessages([...newMessages, { role: "assistant", content: "Hmm, something went wrong. Try again? 🤔" }]);
+        setMessages([...newMessages, { role: "assistant", content: "Error: " + (data.error || "Unknown error") + (data.detail ? "\n" + data.detail : "") }]);
       }
     } catch (err) {
       setMessages([...newMessages, { role: "assistant", content: "Connection error — check your internet! 📡" }]);
