@@ -482,7 +482,7 @@ function ChatTab() {
         setMessages([...newMessages, { role: "assistant", content: "Error: " + (data.error || "Unknown error") + (data.detail ? "\n" + data.detail : "") }]);
       }
     } catch (err) {
-      setMessages([...newMessages, { role: "assistant", content: "Connection error — check your internet! 📡" }]);
+      setMessages([...newMessages, { role: "assistant", content: "Connection error: " + err.message + " — Try refreshing the page" }]);
     }
     setLoading(false);
   };
