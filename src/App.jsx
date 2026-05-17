@@ -494,8 +494,8 @@ function ChatTab() {
         <div style={{ position: "absolute", top: "-15px", right: "-5px", fontSize: "80px", opacity: 0.15 }}>🤖</div>
         <div style={{ position: "relative", zIndex: 2 }}>
           <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "13px", letterSpacing: "2px", textTransform: "uppercase", opacity: 0.85, fontWeight: 500 }}>🟢 ONLINE</div>
-          <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "24px", fontWeight: 600, marginTop: "4px" }}>AI Travel Advisor</div>
-          <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "13px", opacity: 0.85, marginTop: "2px" }}>Ask me anything about the trip! 🇮🇹</div>
+          <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "24px", fontWeight: 600, marginTop: "4px" }}>Gino il Concierge</div>
+          <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "13px", opacity: 0.85, marginTop: "2px" }}>Il vostro concierge preferito 🇮🇹👨‍🍳</div>
         </div>
       </div>
 
@@ -504,7 +504,7 @@ function ChatTab() {
         {messages.length === 0 && (
           <div style={{ textAlign: "center", padding: "40px 20px" }}>
             <div style={{ fontSize: "48px", marginBottom: "12px" }}>🤖🇮🇹</div>
-            <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "18px", color: "#1A1A2E", fontWeight: 600 }}>Ciao! I'm your AI Travel Advisor</div>
+            <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "18px", color: "#1A1A2E", fontWeight: 600 }}>Ciao! I'm your Gino il Concierge</div>
             <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "14px", color: "#888", fontWeight: 600, marginTop: "8px", lineHeight: 1.6 }}>
               I know everything about the Puglia trip — dates, trullo, destinations, flights, drive times. Ask me anything!
             </div>
@@ -605,7 +605,7 @@ function FloatingChat() {
       <div style={{ background: "linear-gradient(135deg, #7209B7, #F72585)", padding: "24px", textAlign: "center" }}>
         <div style={{ fontSize: "48px", marginBottom: "8px" }}>🤖🇮🇹</div>
         <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "20px", color: "white", fontWeight: 600 }}>Who are you?</div>
-        <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "13px", color: "rgba(255,255,255,0.8)", marginTop: "4px" }}>So I know who to roast... 😈</div>
+        <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "13px", color: "rgba(255,255,255,0.8)", marginTop: "4px" }}>Così so chi insultare... 😈</div>
       </div>
       <div style={{ background: "white", padding: "20px", display: "flex", flexDirection: "column", gap: "8px" }}>
         {[["😎","Augusto"],["💃","Fabiola"],["⚡","Pedro"],["🌟","Antonia"],["🎩","Titi"],["🌺","Lili"],["🎀","Matilda"]].map(([e,n]) => (
@@ -620,7 +620,7 @@ function FloatingChat() {
     <div style={{ position: "fixed", bottom: "80px", right: "12px", left: "12px", zIndex: 9999, maxWidth: "400px", marginLeft: "auto", display: "flex", flexDirection: "column", height: "70vh", maxHeight: "550px", borderRadius: "24px", overflow: "hidden", boxShadow: "0 12px 40px rgba(0,0,0,0.25)" }}>
       <div style={{ background: "linear-gradient(135deg, #7209B7, #F72585)", padding: "14px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0 }}>
         <div>
-          <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "15px", color: "white", fontWeight: 600 }}>🤖 AI Travel Advisor</div>
+          <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "15px", color: "white", fontWeight: 600 }}>🤖 Gino il Concierge</div>
           <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "11px", color: "rgba(255,255,255,0.8)", fontWeight: 600 }}>Chatting as {name} · Shared with everyone 🌍</div>
         </div>
         <button onClick={() => setOpen(false)} style={{ background: "rgba(255,255,255,0.2)", border: "none", borderRadius: "50%", width: "32px", height: "32px", color: "white", fontSize: "16px", cursor: "pointer", fontWeight: 700 }}>✕</button>
