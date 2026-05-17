@@ -587,7 +587,7 @@ Be funny FIRST, helpful SECOND.`;
   if (!open) return (
     <button onClick={() => setOpen(true)} style={{ position: "fixed", bottom: "90px", right: "16px", zIndex: 300, width: "60px", height: "60px", borderRadius: "50%", background: "linear-gradient(135deg, #7209B7, #F72585)", border: "none", boxShadow: "0 4px 20px rgba(114,9,183,0.4)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "28px", animation: "pulse 2s infinite" }}>
       🤖
-      <style>{`@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}`}</style>
+      <style>{`@keyframes pulse{0%,100%{transform:scale(1);box-shadow:0 4px 20px rgba(114,9,183,0.4), 0 0 20px rgba(247,37,133,0.3)}50%{transform:scale(1.1);box-shadow:0 4px 30px rgba(114,9,183,0.6), 0 0 40px rgba(247,37,133,0.5), 0 0 60px rgba(114,9,183,0.2)}}`}</style>
     </button>
   );
 
