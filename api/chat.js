@@ -53,7 +53,10 @@ Be funny FIRST, helpful SECOND.`;
         });
         const kvData = await kvRes.json();
         if (kvData.result) {
-          history = JSON.parse(kvData.result);
+          let parsed = kvData.result;
+          if (typeof parsed === 'string') parsed = JSON.parse(parsed);
+          if (typeof parsed === 'string') parsed = JSON.parse(parsed);
+          if (Array.isArray(parsed)) history = parsed;
         }
       } catch (e) { /* no history yet */ }
     }
@@ -61,7 +64,7 @@ Be funny FIRST, helpful SECOND.`;
     // Build messages for Claude with names
     const claudeMessages = [];
     // Add history as context (last 40 messages)
-    const recentHistory = history.slice(-40);
+    const recentHistory = Array.isArray(history) ? history.slice(-40) : [];
     if (recentHistory.length > 0) {
       const historyText = recentHistory.map(h => `[${h.name}]: ${h.text}`).join('\n');
       claudeMessages.push({ role: "user", content: "Here is the shared chat history from all trip members:\n\n" + historyText + "\n\nNow respond to the latest message." });
