@@ -558,67 +558,79 @@ function FloatingChat() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [name, setName] = useState(() => { try { return localStorage.getItem("puglia-chat-name") || ""; } catch { return ""; } });
   const messagesEndRef = useRef(null);
   useEffect(() => { messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
 
-  const CHAT_SYSTEM = `You are the AI Travel Advisor for a group trip to Puglia, Italy — July 23 to August 1, 2026. You are HILARIOUS, sarcastic, and you roast everyone in the group with love. Think of yourself as the 8th member of the trip who has no filter.
-YOUR PERSONALITY: Black humor, savage but loving. Titi gets extra heat. You call Jairo "El Titi" and joke about him being cheap, slow, lost, dramatic. Augusto is obsessed with planning. Fabiola is the only responsible adult. Lili is the real boss. Pedro and Antonia survive on gelato. Matilda is the princess. You complain about not being invited. You keep a token countdown joke. You speak English and Spanish naturally. Keep answers SHORT — max 3-4 sentences.
-FAMILIES: Restrepo (Augusto, Fabiola, Pedro, Antonia) Paris to Bari Jul 23. Ricardo (Titi, Lili, Matilda) Miami to Rome to Bari Jul 24 (LATE, classic Titi).
-STAY: Trullo in Monopoli, pool, BBQ, ocean view, 9 nights. Car: Cupra Formentor.
-ITINERARY: Day1 Restrepo arrives. Day2 Titi shows up, pool. Day3 Beach or Maldives of Salento. Day4 Polignano(15min). Day5 Alberobello(35min). Day6 Matera(1h20). Day7 Boat tour. Day8 Ostuni(45min). Day9 Lecce(1h30). Day10 Departure.
-Be funny FIRST, helpful SECOND.`;
+  useEffect(() => {
+    if (open && name && messages.length === 0) {
+      fetch("/api/chat", { method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: "Hey! I just opened the chat.", name }) })
+        .then(r => r.json()).then(data => {
+          const msgs = [];
+          if (data.history) { data.history.slice(-20).forEach(h => { msgs.push({ role: h.role === "assistant" ? "assistant" : "user", content: h.text, name: h.name }); }); }
+          if (data.response) msgs.push({ role: "assistant", content: data.response, name: "Bot" });
+          setMessages(msgs);
+        }).catch(() => {});
+    }
+  }, [open, name]);
+
+  const saveName = (n) => { setName(n); try { localStorage.setItem("puglia-chat-name", n); } catch {} };
 
   const sendMessage = async () => {
     if (!input.trim() || loading) return;
     const userMsg = input.trim();
     setInput("");
-    const newMessages = [...messages, { role: "user", content: userMsg }];
+    const newMessages = [...messages, { role: "user", content: userMsg, name }];
     setMessages(newMessages);
     setLoading(true);
     try {
-      const res = await fetch("/api/chat", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ messages: newMessages }) });
+      const res = await fetch("/api/chat", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ message: userMsg, name }) });
       const data = await res.json();
-      if (data.response) { setMessages([...newMessages, { role: "assistant", content: data.response }]); }
-      else { setMessages([...newMessages, { role: "assistant", content: "Error: " + (data.error || "Unknown") }]); }
-    } catch (err) { setMessages([...newMessages, { role: "assistant", content: "Connection error: " + err.message }]); }
+      if (data.response) { setMessages([...newMessages, { role: "assistant", content: data.response, name: "Bot" }]); }
+      else { setMessages([...newMessages, { role: "assistant", content: "Error: " + (data.error || "Unknown"), name: "Bot" }]); }
+    } catch (err) { setMessages([...newMessages, { role: "assistant", content: "Connection error: " + err.message, name: "Bot" }]); }
     setLoading(false);
   };
 
   if (!open) return (
-    <button onClick={() => setOpen(true)} style={{ position: "fixed", bottom: "90px", right: "16px", zIndex: 300, width: "60px", height: "60px", borderRadius: "50%", background: "linear-gradient(135deg, #7209B7, #F72585)", border: "none", boxShadow: "0 4px 20px rgba(114,9,183,0.4)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "28px", animation: "pulse 2s infinite" }}>
+    <button onClick={() => setOpen(true)} style={{ position: "fixed", bottom: "90px", right: "16px", zIndex: 300, width: "60px", height: "60px", borderRadius: "50%", background: "linear-gradient(135deg, #7209B7, #F72585)", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "28px", animation: "pulse 2s infinite" }}>
       🤖
       <style>{`@keyframes pulse{0%,100%{transform:scale(1);box-shadow:0 4px 20px rgba(114,9,183,0.5), 0 0 30px rgba(247,37,133,0.4), 0 0 50px rgba(114,9,183,0.2)}50%{transform:scale(1.15);box-shadow:0 4px 40px rgba(114,9,183,0.7), 0 0 60px rgba(247,37,133,0.6), 0 0 90px rgba(114,9,183,0.4), 0 0 120px rgba(247,37,133,0.2)}}`}</style>
     </button>
   );
 
+  if (!name) return (
+    <div style={{ position: "fixed", bottom: "80px", right: "8px", left: "8px", zIndex: 300, maxWidth: "420px", marginLeft: "auto", borderRadius: "24px", overflow: "hidden", boxShadow: "0 12px 40px rgba(0,0,0,0.25)" }}>
+      <div style={{ background: "linear-gradient(135deg, #7209B7, #F72585)", padding: "24px", textAlign: "center" }}>
+        <div style={{ fontSize: "48px", marginBottom: "8px" }}>🤖🇮🇹</div>
+        <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "20px", color: "white", fontWeight: 600 }}>Who are you?</div>
+        <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "13px", color: "rgba(255,255,255,0.8)", marginTop: "4px" }}>So I know who to roast... 😈</div>
+      </div>
+      <div style={{ background: "white", padding: "20px", display: "flex", flexDirection: "column", gap: "8px" }}>
+        {[["😎","Augusto"],["💃","Fabiola"],["⚡","Pedro"],["🌟","Antonia"],["🎩","Titi"],["🌺","Lili"],["🎀","Matilda"]].map(([e,n]) => (
+          <button key={n} onClick={() => saveName(n)} style={{ padding: "14px", borderRadius: "14px", border: "2px solid #E8E0F0", background: "#F8F4FF", fontFamily: "'Fredoka',sans-serif", fontSize: "16px", color: "#7209B7", fontWeight: 600, cursor: "pointer" }}>{e} {n}</button>
+        ))}
+        <button onClick={() => setOpen(false)} style={{ padding: "10px", border: "none", background: "transparent", color: "#AAA", fontFamily: "'Nunito',sans-serif", fontSize: "13px", cursor: "pointer" }}>Cancel</button>
+      </div>
+    </div>
+  );
+
   return (
-    <div style={{ position: "fixed", bottom: "80px", right: "8px", left: "8px", zIndex: 300, maxWidth: "420px", marginLeft: "auto", display: "flex", flexDirection: "column", height: "70vh", maxHeight: "550px", borderRadius: "24px", overflow: "hidden", boxShadow: "0 12px 40px rgba(0,0,0,0.25)", border: "1px solid rgba(255,255,255,0.1)" }}>
-      {/* Header */}
-      <div style={{ background: "linear-gradient(135deg, #7209B7, #F72585)", padding: "16px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0 }}>
+    <div style={{ position: "fixed", bottom: "80px", right: "8px", left: "8px", zIndex: 300, maxWidth: "420px", marginLeft: "auto", display: "flex", flexDirection: "column", height: "70vh", maxHeight: "550px", borderRadius: "24px", overflow: "hidden", boxShadow: "0 12px 40px rgba(0,0,0,0.25)" }}>
+      <div style={{ background: "linear-gradient(135deg, #7209B7, #F72585)", padding: "14px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0 }}>
         <div>
-          <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "16px", color: "white", fontWeight: 600 }}>🤖 AI Travel Advisor</div>
-          <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "11px", color: "rgba(255,255,255,0.8)", fontWeight: 600 }}>Ask me anything about Puglia! 🇮🇹</div>
+          <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "15px", color: "white", fontWeight: 600 }}>🤖 AI Travel Advisor</div>
+          <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "11px", color: "rgba(255,255,255,0.8)", fontWeight: 600 }}>Chatting as {name} · Shared with everyone 🌍</div>
         </div>
         <button onClick={() => setOpen(false)} style={{ background: "rgba(255,255,255,0.2)", border: "none", borderRadius: "50%", width: "32px", height: "32px", color: "white", fontSize: "16px", cursor: "pointer", fontWeight: 700 }}>✕</button>
       </div>
-
-      {/* Messages */}
-      <div style={{ flex: 1, overflowY: "auto", padding: "12px", background: "white", display: "flex", flexDirection: "column", gap: "10px" }}>
-        {messages.length === 0 && (
-          <div style={{ textAlign: "center", padding: "20px 12px" }}>
-            <div style={{ fontSize: "36px", marginBottom: "8px" }}>🤖🇮🇹</div>
-            <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "13px", color: "#888", fontWeight: 600 }}>Ask about destinations, food, drive times, or just roast Titi!</div>
-            <div style={{ display: "flex", flexDirection: "column", gap: "6px", marginTop: "14px" }}>
-              {["Who is Titi? 😏", "Best food in Puglia? 🍝", "How far is Matera? 🚗"].map((q, i) => (
-                <button key={i} onClick={() => setInput(q)} style={{ background: "#F8F4FF", border: "1px solid #E8E0F0", borderRadius: "12px", padding: "10px 14px", fontFamily: "'Nunito',sans-serif", fontSize: "13px", color: "#7209B7", fontWeight: 700, cursor: "pointer", textAlign: "left" }}>{q}</button>
-              ))}
-            </div>
-          </div>
-        )}
+      <div style={{ flex: 1, overflowY: "auto", padding: "12px", background: "white", display: "flex", flexDirection: "column", gap: "8px" }}>
         {messages.map((msg, i) => (
-          <div key={i} style={{ display: "flex", justifyContent: msg.role === "user" ? "flex-end" : "flex-start" }}>
+          <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: msg.role === "user" ? "flex-end" : "flex-start" }}>
+            {msg.role === "user" && <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "10px", color: "#999", fontWeight: 700, marginBottom: "2px", paddingRight: "4px" }}>{msg.name || "?"}</div>}
             <div style={{ maxWidth: "85%", padding: "10px 14px", borderRadius: msg.role === "user" ? "16px 16px 4px 16px" : "16px 16px 16px 4px",
-              background: msg.role === "user" ? "linear-gradient(135deg, #7209B7, #9D4EDD)" : "#F4F4F4",
+              background: msg.role === "user" ? (msg.name === name ? "linear-gradient(135deg, #7209B7, #9D4EDD)" : "linear-gradient(135deg, #2A9D8F, #48CAE4)") : "#F4F4F4",
               color: msg.role === "user" ? "white" : "#1A1A2E",
               fontFamily: "'Nunito',sans-serif", fontSize: "14px", fontWeight: 600, lineHeight: 1.5, whiteSpace: "pre-wrap" }}>
               {msg.content}
@@ -628,16 +640,12 @@ Be funny FIRST, helpful SECOND.`;
         {loading && <div style={{ padding: "10px 14px", borderRadius: "16px", background: "#F4F4F4", fontFamily: "'Nunito',sans-serif", fontSize: "14px", color: "#888", alignSelf: "flex-start" }}>Thinking... 🤔</div>}
         <div ref={messagesEndRef} />
       </div>
-
-      {/* Input */}
       <div style={{ display: "flex", gap: "6px", padding: "10px 12px", background: "white", borderTop: "1px solid #F0F0F0", flexShrink: 0 }}>
         <input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === "Enter" && sendMessage()}
-          placeholder="Ask about the trip..."
+          placeholder={"Message as " + name + "..."}
           style={{ flex: 1, padding: "12px 14px", borderRadius: "14px", border: "2px solid #E8E0F0", fontFamily: "'Nunito',sans-serif", fontSize: "14px", fontWeight: 600, outline: "none", background: "#FAFAFA", color: "#1A1A2E", boxSizing: "border-box" }} />
         <button onClick={sendMessage} disabled={loading}
-          style={{ padding: "12px 16px", borderRadius: "14px", border: "none", background: loading ? "#CCC" : "linear-gradient(135deg, #7209B7, #F72585)", color: "white", fontFamily: "'Fredoka',sans-serif", fontSize: "14px", fontWeight: 600, cursor: loading ? "default" : "pointer", whiteSpace: "nowrap" }}>
-          ✈️
-        </button>
+          style={{ padding: "12px 16px", borderRadius: "14px", border: "none", background: loading ? "#CCC" : "linear-gradient(135deg, #7209B7, #F72585)", color: "white", fontFamily: "'Fredoka',sans-serif", fontSize: "14px", fontWeight: 600, cursor: loading ? "default" : "pointer" }}>✈️</button>
       </div>
     </div>
   );
