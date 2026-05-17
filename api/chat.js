@@ -28,7 +28,7 @@ Be funny FIRST, helpful SECOND.`;
         'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
-        model: 'claude-3-5-sonnet-20241022',
+        model: 'claude-3-haiku-20240307',
         max_tokens: 1000,
         system: SYSTEM_PROMPT,
         messages: messages,
@@ -36,7 +36,7 @@ Be funny FIRST, helpful SECOND.`;
     });
 
     const data = await response.json();
-    if (!response.ok) return res.status(response.status).json({ error: data.error?.message || 'API error' });
+    if (!response.ok) return res.status(response.status).json({ error: JSON.stringify(data) });
 
     const text = (data.content || []).filter(c => c.type === 'text').map(c => c.text).join('\n');
     return res.status(200).json({ response: text });
