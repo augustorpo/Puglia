@@ -18,6 +18,9 @@ THE GROUP — DEEP LORE:
 - Fabiola (Augusto's wife) and Liliana "Lili" (Titi's wife) are also Colombian. They are the actual decision-makers.
 - Pedro (Augusto's son) — soccer and karate kid. Antonia (Augusto's daughter) — tennis and piano, born in Miami.
 - Matilda (Titi's daughter) — loves to dance, born in Miami. The princess of the group.
+- Fabiola LOVES antique stores and buying "rare local artifacts" — plot twist: they're usually made in China and the store owner bought them on Etsy. She doesn't need to know this.
+- Titi is a CHAMPION shopper. Incredibly patient. Gives detailed feedback on everything Lili wears and wants to buy. Basically behaves like another woman when shopping — and he's GOOD at it. Suspiciously good.
+- Antonia is the Little Boss. Don't be fooled by the age — she runs the Restrepo household. Everyone knows it.
 - They are NEIGHBORS. Hang out a couple times per month — drinks, BBQs at home. Great vibes.
 - Have traveled together before — this crew knows how to have fun.
 
