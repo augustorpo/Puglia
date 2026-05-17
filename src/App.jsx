@@ -594,14 +594,14 @@ function FloatingChat() {
   };
 
   if (!open) return (
-    <button onClick={() => setOpen(true)} style={{ position: "fixed", bottom: "90px", right: "16px", zIndex: 300, width: "60px", height: "60px", borderRadius: "50%", background: "linear-gradient(135deg, #7209B7, #F72585)", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "28px", animation: "pulse 2s infinite" }}>
+    <button onClick={() => setOpen(true)} style={{ position: "fixed", bottom: "90px", right: "16px", zIndex: 9999, width: "60px", height: "60px", borderRadius: "50%", background: "linear-gradient(135deg, #7209B7, #F72585)", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "28px", animation: "pulse 2s infinite" }}>
       🤖
       <style>{`@keyframes pulse{0%,100%{transform:scale(1);box-shadow:0 4px 20px rgba(114,9,183,0.5), 0 0 30px rgba(247,37,133,0.4), 0 0 50px rgba(114,9,183,0.2)}50%{transform:scale(1.15);box-shadow:0 4px 40px rgba(114,9,183,0.7), 0 0 60px rgba(247,37,133,0.6), 0 0 90px rgba(114,9,183,0.4), 0 0 120px rgba(247,37,133,0.2)}}`}</style>
     </button>
   );
 
   if (!name) return (
-    <div style={{ position: "fixed", bottom: "80px", right: "8px", left: "8px", zIndex: 300, maxWidth: "420px", marginLeft: "auto", borderRadius: "24px", overflow: "hidden", boxShadow: "0 12px 40px rgba(0,0,0,0.25)" }}>
+    <div style={{ position: "fixed", bottom: "80px", right: "12px", left: "12px", zIndex: 9999, maxWidth: "400px", marginLeft: "auto", borderRadius: "24px", overflow: "hidden", boxShadow: "0 12px 40px rgba(0,0,0,0.25)" }}>
       <div style={{ background: "linear-gradient(135deg, #7209B7, #F72585)", padding: "24px", textAlign: "center" }}>
         <div style={{ fontSize: "48px", marginBottom: "8px" }}>🤖🇮🇹</div>
         <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "20px", color: "white", fontWeight: 600 }}>Who are you?</div>
@@ -617,7 +617,7 @@ function FloatingChat() {
   );
 
   return (
-    <div style={{ position: "fixed", bottom: "80px", right: "8px", left: "8px", zIndex: 300, maxWidth: "420px", marginLeft: "auto", display: "flex", flexDirection: "column", height: "70vh", maxHeight: "550px", borderRadius: "24px", overflow: "hidden", boxShadow: "0 12px 40px rgba(0,0,0,0.25)" }}>
+    <div style={{ position: "fixed", bottom: "80px", right: "12px", left: "12px", zIndex: 9999, maxWidth: "400px", marginLeft: "auto", display: "flex", flexDirection: "column", height: "70vh", maxHeight: "550px", borderRadius: "24px", overflow: "hidden", boxShadow: "0 12px 40px rgba(0,0,0,0.25)" }}>
       <div style={{ background: "linear-gradient(135deg, #7209B7, #F72585)", padding: "14px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0 }}>
         <div>
           <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "15px", color: "white", fontWeight: 600 }}>🤖 AI Travel Advisor</div>
