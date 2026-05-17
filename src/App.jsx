@@ -551,7 +551,97 @@ function ChatTab() {
   );
 }
 
-const TABS=[{id:"planner",label:"Plan",icon:"📅"},{id:"live",label:"Live",icon:"📹"},{id:"pics",label:"Pics",icon:"📸"},{id:"trullo",label:"Trullo",icon:"🏡"},{id:"chat",label:"Chat",icon:"🤖"},{id:"restrepo",label:"Restrepo",icon:"🌶️"},{id:"ricardo",label:"Ricardo",icon:"🦜"}];
+const TABS=[{id:"planner",label:"Plan",icon:"📅"},{id:"live",label:"Live",icon:"📹"},{id:"pics",label:"Pics",icon:"📸"},{id:"trullo",label:"Trullo",icon:"🏡"},{id:"restrepo",label:"Restrepo",icon:"🌶️"},{id:"ricardo",label:"Ricardo",icon:"🦜"}];
+
+function FloatingChat() {
+  const [open, setOpen] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const messagesEndRef = useRef(null);
+  useEffect(() => { messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]);
+
+  const CHAT_SYSTEM = `You are the AI Travel Advisor for a group trip to Puglia, Italy — July 23 to August 1, 2026. You are HILARIOUS, sarcastic, and you roast everyone in the group with love. Think of yourself as the 8th member of the trip who has no filter.
+YOUR PERSONALITY: Black humor, savage but loving. Titi gets extra heat. You call Jairo "El Titi" and joke about him being cheap, slow, lost, dramatic. Augusto is obsessed with planning. Fabiola is the only responsible adult. Lili is the real boss. Pedro and Antonia survive on gelato. Matilda is the princess. You complain about not being invited. You keep a token countdown joke. You speak English and Spanish naturally. Keep answers SHORT — max 3-4 sentences.
+FAMILIES: Restrepo (Augusto, Fabiola, Pedro, Antonia) Paris to Bari Jul 23. Ricardo (Titi, Lili, Matilda) Miami to Rome to Bari Jul 24 (LATE, classic Titi).
+STAY: Trullo in Monopoli, pool, BBQ, ocean view, 9 nights. Car: Cupra Formentor.
+ITINERARY: Day1 Restrepo arrives. Day2 Titi shows up, pool. Day3 Beach or Maldives of Salento. Day4 Polignano(15min). Day5 Alberobello(35min). Day6 Matera(1h20). Day7 Boat tour. Day8 Ostuni(45min). Day9 Lecce(1h30). Day10 Departure.
+Be funny FIRST, helpful SECOND.`;
+
+  const sendMessage = async () => {
+    if (!input.trim() || loading) return;
+    const userMsg = input.trim();
+    setInput("");
+    const newMessages = [...messages, { role: "user", content: userMsg }];
+    setMessages(newMessages);
+    setLoading(true);
+    try {
+      const res = await fetch("/api/chat", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ messages: newMessages }) });
+      const data = await res.json();
+      if (data.response) { setMessages([...newMessages, { role: "assistant", content: data.response }]); }
+      else { setMessages([...newMessages, { role: "assistant", content: "Error: " + (data.error || "Unknown") }]); }
+    } catch (err) { setMessages([...newMessages, { role: "assistant", content: "Connection error: " + err.message }]); }
+    setLoading(false);
+  };
+
+  if (!open) return (
+    <button onClick={() => setOpen(true)} style={{ position: "fixed", bottom: "90px", right: "16px", zIndex: 300, width: "60px", height: "60px", borderRadius: "50%", background: "linear-gradient(135deg, #7209B7, #F72585)", border: "none", boxShadow: "0 4px 20px rgba(114,9,183,0.4)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "28px", animation: "pulse 2s infinite" }}>
+      🤖
+      <style>{`@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}`}</style>
+    </button>
+  );
+
+  return (
+    <div style={{ position: "fixed", bottom: "80px", right: "8px", left: "8px", zIndex: 300, maxWidth: "420px", marginLeft: "auto", display: "flex", flexDirection: "column", height: "70vh", maxHeight: "550px", borderRadius: "24px", overflow: "hidden", boxShadow: "0 12px 40px rgba(0,0,0,0.25)", border: "1px solid rgba(255,255,255,0.1)" }}>
+      {/* Header */}
+      <div style={{ background: "linear-gradient(135deg, #7209B7, #F72585)", padding: "16px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", flexShrink: 0 }}>
+        <div>
+          <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "16px", color: "white", fontWeight: 600 }}>🤖 AI Travel Advisor</div>
+          <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "11px", color: "rgba(255,255,255,0.8)", fontWeight: 600 }}>Ask me anything about Puglia! 🇮🇹</div>
+        </div>
+        <button onClick={() => setOpen(false)} style={{ background: "rgba(255,255,255,0.2)", border: "none", borderRadius: "50%", width: "32px", height: "32px", color: "white", fontSize: "16px", cursor: "pointer", fontWeight: 700 }}>✕</button>
+      </div>
+
+      {/* Messages */}
+      <div style={{ flex: 1, overflowY: "auto", padding: "12px", background: "white", display: "flex", flexDirection: "column", gap: "10px" }}>
+        {messages.length === 0 && (
+          <div style={{ textAlign: "center", padding: "20px 12px" }}>
+            <div style={{ fontSize: "36px", marginBottom: "8px" }}>🤖🇮🇹</div>
+            <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "13px", color: "#888", fontWeight: 600 }}>Ask about destinations, food, drive times, or just roast Titi!</div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "6px", marginTop: "14px" }}>
+              {["Who is Titi? 😏", "Best food in Puglia? 🍝", "How far is Matera? 🚗"].map((q, i) => (
+                <button key={i} onClick={() => setInput(q)} style={{ background: "#F8F4FF", border: "1px solid #E8E0F0", borderRadius: "12px", padding: "10px 14px", fontFamily: "'Nunito',sans-serif", fontSize: "13px", color: "#7209B7", fontWeight: 700, cursor: "pointer", textAlign: "left" }}>{q}</button>
+              ))}
+            </div>
+          </div>
+        )}
+        {messages.map((msg, i) => (
+          <div key={i} style={{ display: "flex", justifyContent: msg.role === "user" ? "flex-end" : "flex-start" }}>
+            <div style={{ maxWidth: "85%", padding: "10px 14px", borderRadius: msg.role === "user" ? "16px 16px 4px 16px" : "16px 16px 16px 4px",
+              background: msg.role === "user" ? "linear-gradient(135deg, #7209B7, #9D4EDD)" : "#F4F4F4",
+              color: msg.role === "user" ? "white" : "#1A1A2E",
+              fontFamily: "'Nunito',sans-serif", fontSize: "14px", fontWeight: 600, lineHeight: 1.5, whiteSpace: "pre-wrap" }}>
+              {msg.content}
+            </div>
+          </div>
+        ))}
+        {loading && <div style={{ padding: "10px 14px", borderRadius: "16px", background: "#F4F4F4", fontFamily: "'Nunito',sans-serif", fontSize: "14px", color: "#888", alignSelf: "flex-start" }}>Thinking... 🤔</div>}
+        <div ref={messagesEndRef} />
+      </div>
+
+      {/* Input */}
+      <div style={{ display: "flex", gap: "6px", padding: "10px 12px", background: "white", borderTop: "1px solid #F0F0F0", flexShrink: 0 }}>
+        <input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === "Enter" && sendMessage()}
+          placeholder="Ask about the trip..."
+          style={{ flex: 1, padding: "12px 14px", borderRadius: "14px", border: "2px solid #E8E0F0", fontFamily: "'Nunito',sans-serif", fontSize: "14px", fontWeight: 600, outline: "none", background: "#FAFAFA", color: "#1A1A2E", boxSizing: "border-box" }} />
+        <button onClick={sendMessage} disabled={loading}
+          style={{ padding: "12px 16px", borderRadius: "14px", border: "none", background: loading ? "#CCC" : "linear-gradient(135deg, #7209B7, #F72585)", color: "white", fontFamily: "'Fredoka',sans-serif", fontSize: "14px", fontWeight: 600, cursor: loading ? "default" : "pointer", whiteSpace: "nowrap" }}>
+          ✈️
+        </button>
+      </div>
+    </div>
+  );
+}
 
 const PASSWORD = "puglia";
 
@@ -588,4 +678,4 @@ function LoginScreen({ onLogin }) {
   );
 }
 
-export default function App(){const[loggedIn,setLoggedIn]=useState(false);const[tab,setTab]=useState("planner");const[fadeIn,setFadeIn]=useState(true);const switchTab=(id)=>{setFadeIn(false);setTimeout(()=>{setTab(id);setFadeIn(true);window.scrollTo({top:0,behavior:"smooth"});},150);};if(!loggedIn)return <LoginScreen onLogin={()=>setLoggedIn(true)}/>;return(<div style={{minHeight:"100vh",background:"#F0F7FF",fontFamily:"'Nunito',sans-serif"}}><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/><style>{`*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}body{background:#F0F7FF}.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);border-top:2px solid #E8E8E8;display:flex;justify-content:space-around;padding:6px 4px env(safe-area-inset-bottom,14px)}.bottom-nav button{display:flex;flex-direction:column;align-items:center;gap:1px;background:none;border:none;color:#AAA;font-family:'Nunito',sans-serif;font-size:8px;font-weight:800;cursor:pointer;padding:5px 2px;border-radius:10px;transition:all 0.2s;min-width:42px}.bottom-nav button.active{color:#FF6B35;background:#FF6B3510}.bottom-nav .nav-icon{font-size:22px}.content{max-width:600px;margin:0 auto;padding:0 16px 100px;transition:all 0.3s}.content.fade-out{opacity:0;transform:translateY(8px)}`}</style><HeroSection/><div className={"content"+(fadeIn?"":" fade-out")}>{tab==="planner"&&<DailyPlannerTab/>}{tab==="live"&&<LiveCamsTab/>}{tab==="pics"&&<PicturesTab/>}{tab==="trullo"&&<TrulloTab/>}{tab==="chat"&&<ChatTab/>}{tab==="restrepo"&&<FamilyTab family="restrepo"/>}{tab==="ricardo"&&<FamilyTab family="ricardo"/>}</div><nav className="bottom-nav">{TABS.map(t=>(<button key={t.id} className={tab===t.id?"active":""} onClick={()=>switchTab(t.id)}><span className="nav-icon">{t.icon}</span>{t.label}</button>))}</nav><div style={{textAlign:"center",padding:"20px 16px 100px",fontFamily:"'Nunito',sans-serif",fontSize:"13px",color:"#CCC",fontWeight:700}}>☀️ Puglia 2026 · Restrepo × Ricardo · Made with 🍕</div></div>);}
+export default function App(){const[loggedIn,setLoggedIn]=useState(false);const[tab,setTab]=useState("planner");const[fadeIn,setFadeIn]=useState(true);const switchTab=(id)=>{setFadeIn(false);setTimeout(()=>{setTab(id);setFadeIn(true);window.scrollTo({top:0,behavior:"smooth"});},150);};if(!loggedIn)return <LoginScreen onLogin={()=>setLoggedIn(true)}/>;return(<div style={{minHeight:"100vh",background:"#F0F7FF",fontFamily:"'Nunito',sans-serif"}}><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/><style>{`*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}body{background:#F0F7FF}.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);border-top:2px solid #E8E8E8;display:flex;justify-content:space-around;padding:6px 4px env(safe-area-inset-bottom,14px)}.bottom-nav button{display:flex;flex-direction:column;align-items:center;gap:1px;background:none;border:none;color:#AAA;font-family:'Nunito',sans-serif;font-size:8px;font-weight:800;cursor:pointer;padding:5px 2px;border-radius:10px;transition:all 0.2s;min-width:42px}.bottom-nav button.active{color:#FF6B35;background:#FF6B3510}.bottom-nav .nav-icon{font-size:22px}.content{max-width:600px;margin:0 auto;padding:0 16px 100px;transition:all 0.3s}.content.fade-out{opacity:0;transform:translateY(8px)}`}</style><HeroSection/><div className={"content"+(fadeIn?"":" fade-out")}>{tab==="planner"&&<DailyPlannerTab/>}{tab==="live"&&<LiveCamsTab/>}{tab==="pics"&&<PicturesTab/>}{tab==="trullo"&&<TrulloTab/>}{tab==="restrepo"&&<FamilyTab family="restrepo"/>}{tab==="ricardo"&&<FamilyTab family="ricardo"/>}</div><FloatingChat/><nav className="bottom-nav">{TABS.map(t=>(<button key={t.id} className={tab===t.id?"active":""} onClick={()=>switchTab(t.id)}><span className="nav-icon">{t.icon}</span>{t.label}</button>))}</nav><div style={{textAlign:"center",padding:"20px 16px 100px",fontFamily:"'Nunito',sans-serif",fontSize:"13px",color:"#CCC",fontWeight:700}}>☀️ Puglia 2026 · Restrepo × Ricardo · Made with 🍕</div></div>);}
