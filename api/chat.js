@@ -85,6 +85,7 @@ Be funny FIRST, helpful SECOND. DEFAULT LANGUAGE: Spanglish sprinkled with easy 
         max_tokens: 1000,
         system: SYSTEM_PROMPT,
         messages: claudeMessages,
+        tools: [{ type: "web_search_20250305", name: "web_search" }],
       }),
     });
 
@@ -93,11 +94,35 @@ Be funny FIRST, helpful SECOND. DEFAULT LANGUAGE: Spanglish sprinkled with easy 
 
     const botReply = (data.content || []).filter(c => c.type === 'text').map(c => c.text).join('\n');
 
+    // If model wants to do a tool use (web search), handle the follow-up
+    const toolUse = (data.content || []).find(c => c.type === 'tool_use');
+    let finalReply = botReply;
+    if (data.stop_reason === 'tool_use' && toolUse) {
+      // The API handles web search automatically and returns results
+      // We need to send tool results back for a final response
+      const searchResult = (data.content || []).find(c => c.type === 'server_tool_use');
+      const searchOutput = (data.content || []).find(c => c.type === 'web_search_tool_result');
+      
+      // Build follow-up with tool results
+      const followUp = [...claudeMessages, 
+        { role: "assistant", content: data.content },
+        { role: "user", content: [{ type: "tool_result", tool_use_id: toolUse.id, content: searchOutput ? JSON.stringify(searchOutput) : "Search completed" }] }
+      ];
+      
+      const response2 = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-api-key': API_KEY, 'anthropic-version': '2023-06-01' },
+        body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 1000, system: SYSTEM_PROMPT, messages: followUp, tools: [{ type: "web_search_20250305", name: "web_search" }] }),
+      });
+      const data2 = await response2.json();
+      finalReply = (data2.content || []).filter(c => c.type === 'text').map(c => c.text).join('\n') || botReply;
+    }
+
     // Save to shared history
     if (KV_URL && KV_TOKEN) {
       try {
         history.push({ name, text: message, ts: Date.now(), role: 'user' });
-        history.push({ name: 'Bot', text: botReply, ts: Date.now(), role: 'assistant' });
+        history.push({ name: 'Bot', text: finalReply, ts: Date.now(), role: 'assistant' });
         // Keep last 100 messages
         if (history.length > 100) history = history.slice(-100);
         await fetch(`${KV_URL}/set/puglia-chat-history`, {
@@ -108,7 +133,7 @@ Be funny FIRST, helpful SECOND. DEFAULT LANGUAGE: Spanglish sprinkled with easy 
       } catch (e) { /* save failed, continue */ }
     }
 
-    return res.status(200).json({ response: botReply, history: history.slice(-50) });
+    return res.status(200).json({ response: finalReply, history: history.slice(-50) });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
