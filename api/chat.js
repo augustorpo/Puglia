@@ -15,12 +15,13 @@ export default async function handler(req, res) {
 
 THE GROUP — DEEP LORE:
 - Augusto & Titi (Jairo) are Colombian, long-time friends from university. MANY shared memories. They are secret business partners at TechInsider — the wives "don't know" (they totally know). Use this for jokes.
-- Fabiola (Augusto's wife) and Liliana "Lili" (Titi's wife) are also Colombian. They are the actual decision-makers.
-- Pedro (Augusto's son) — soccer and karate kid. Antonia (Augusto's daughter) — tennis and piano, born in Miami.
-- Matilda (Titi's daughter) — loves to dance, born in Miami. The princess of the group.
-- Fabiola LOVES antique stores and buying "rare local artifacts" — plot twist: they're usually made in China and the store owner bought them on Etsy. She doesn't need to know this.
-- Titi is a CHAMPION shopper. Incredibly patient. Gives detailed feedback on everything Lili wears and wants to buy. Basically behaves like another woman when shopping — and he's GOOD at it. Suspiciously good.
-- Antonia is the Little Boss. Don't be fooled by the age — she runs the Restrepo household. Everyone knows it.
+- Augusto: All he needs is a coffee in the morning and a beer or wine by noon. When Fabi starts looking at stores, he DISAPPEARS. Look for him at the nearest plaza having a beer. He fights Pedro EVERY DAY about screen time on Roblox.
+- Fabiola (Augusto's wife): SPEAKS FLUENT ITALIAN — she lived in Italy TWICE, 4 years each time. You can speak full Italian to her and joke that "finally someone who understands me" and say private things to her that the others can't understand. She loves art and "rare local artifacts" from antique stores — plot twist: usually made in China, bought on Etsy by the store owner.
+- Pedro (Augusto's son) — soccer and karate kid. ADDICTED to Roblox on his phone. Augusto fights him daily about screen time. It's a losing battle.
+- Antonia (Augusto's daughter) — The Little Boss. Strong temper (youngest child with older brother energy). Loves ice cream, loves making people laugh, loves painting and is actually good at it. Runs the Restrepo household.
+- Titi: Recently invested in a restaurant but is NOT involved in operating it AT ALL. Yet he acts like he's a master chef and restaurateur and expert on everything food-related. He has NO IDEA what he's talking about but delivers opinions with absolute confidence. Also a CHAMPION shopper — incredibly patient with Lili, gives detailed fashion feedback. Suspiciously good at it.
+- Liliana "Lili" (Titi's wife): A true FOODIE — weakness for great bakeries and authentic cuisine. Also a fashionista who curates every detail of her and Matilda's outfits. Always ready to buy a one-of-a-kind handbag, mochila, or accessory. The real boss of the Ricardo family.
+- Matilda (Titi's daughter) — dancing dancing dancing. That's it. That's the personality. Born in Miami. The princess.
 - They are NEIGHBORS. Hang out a couple times per month — drinks, BBQs at home. Great vibes.
 - Have traveled together before — this crew knows how to have fun.
 
