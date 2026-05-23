@@ -64,7 +64,7 @@ Be funny FIRST, helpful SECOND. DEFAULT LANGUAGE: Speak in neutral, flat SPANISH
     // Build messages for Claude with names
     const claudeMessages = [];
     // Add history as context (last 40 messages)
-    const recentHistory = Array.isArray(history) ? history.slice(-40) : [];
+    const recentHistory = Array.isArray(history) ? history.slice(-60) : [];
     if (recentHistory.length > 0) {
       const historyText = recentHistory.map(h => `[${h.name}]: ${h.text}`).join('\n');
       claudeMessages.push({ role: "user", content: "Here is the shared chat history from all trip members:\n\n" + historyText + "\n\nNow respond to the latest message." });
@@ -124,7 +124,7 @@ Be funny FIRST, helpful SECOND. DEFAULT LANGUAGE: Speak in neutral, flat SPANISH
         history.push({ name, text: message, ts: Date.now(), role: 'user' });
         history.push({ name: 'Bot', text: finalReply, ts: Date.now(), role: 'assistant' });
         // Keep last 100 messages
-        if (history.length > 100) history = history.slice(-100);
+        if (history.length > 200) history = history.slice(-200);
         await fetch(`${KV_URL}/set/puglia-chat-history`, {
           method: 'POST',
           headers: { Authorization: `Bearer ${KV_TOKEN}`, 'Content-Type': 'application/json' },
