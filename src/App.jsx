@@ -686,4 +686,34 @@ function LoginScreen({ onLogin }) {
   );
 }
 
-export default function App(){const[loggedIn,setLoggedIn]=useState(false);const[tab,setTab]=useState("planner");const[fadeIn,setFadeIn]=useState(true);const switchTab=(id)=>{setFadeIn(false);setTimeout(()=>{setTab(id);setFadeIn(true);window.scrollTo({top:0,behavior:"smooth"});},150);};if(!loggedIn)return <LoginScreen onLogin={()=>setLoggedIn(true)}/>;return(<div style={{minHeight:"100vh",background:"#F0F7FF",fontFamily:"'Nunito',sans-serif"}}><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/><style>{`*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}body{background:#F0F7FF}.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);border-top:2px solid #E8E8E8;display:flex;justify-content:space-around;padding:6px 4px env(safe-area-inset-bottom,14px)}.bottom-nav button{display:flex;flex-direction:column;align-items:center;gap:1px;background:none;border:none;color:#AAA;font-family:'Nunito',sans-serif;font-size:8px;font-weight:800;cursor:pointer;padding:5px 2px;border-radius:10px;transition:all 0.2s;min-width:42px}.bottom-nav button.active{color:#FF6B35;background:#FF6B3510}.bottom-nav .nav-icon{font-size:22px}.content{max-width:600px;margin:0 auto;padding:0 16px 100px;transition:all 0.3s}.content.fade-out{opacity:0;transform:translateY(8px)}`}</style><HeroSection/><div className={"content"+(fadeIn?"":" fade-out")}>{tab==="planner"&&<DailyPlannerTab/>}{tab==="live"&&<LiveCamsTab/>}{tab==="pics"&&<PicturesTab/>}{tab==="trullo"&&<TrulloTab/>}{tab==="restrepo"&&<FamilyTab family="restrepo"/>}{tab==="ricardo"&&<FamilyTab family="ricardo"/>}</div><FloatingChat/><nav className="bottom-nav">{TABS.map(t=>(<button key={t.id} className={tab===t.id?"active":""} onClick={()=>switchTab(t.id)}><span className="nav-icon">{t.icon}</span>{t.label}</button>))}</nav><div style={{textAlign:"center",padding:"20px 16px 100px",fontFamily:"'Nunito',sans-serif",fontSize:"13px",color:"#CCC",fontWeight:700}}>☀️ Puglia 2026 · Restrepo × Ricardo · Made with 🍕</div></div>);}
+function Countdown() {
+  const [now, setNow] = useState(new Date());
+  useEffect(() => { const t = setInterval(() => setNow(new Date()), 60000); return () => clearInterval(t); }, []);
+  const trip = new Date("2026-07-23T00:00:00");
+  const diff = trip - now;
+  if (diff <= 0) return (
+    <div style={{ maxWidth: "600px", margin: "0 auto", padding: "0 16px 12px" }}>
+      <div style={{ background: "linear-gradient(135deg, #FF6B35, #FF9F1C)", borderRadius: "20px", padding: "20px", textAlign: "center", color: "white" }}>
+        <div style={{ fontSize: "32px" }}>🇮🇹🎉☀️</div>
+        <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "22px", fontWeight: 600, marginTop: "6px" }}>SIAMO IN PUGLIA!</div>
+      </div>
+    </div>
+  );
+  const days = Math.floor(diff / 86400000);
+  const hours = Math.floor((diff % 86400000) / 3600000);
+  return (
+    <div style={{ maxWidth: "600px", margin: "0 auto", padding: "0 16px 12px" }}>
+      <div style={{ background: "white", borderRadius: "20px", padding: "20px", textAlign: "center", boxShadow: "0 4px 15px rgba(0,0,0,0.06)", border: "1px solid #F0F0F0" }}>
+        <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "12px", color: "#999", fontWeight: 800, letterSpacing: "2px", textTransform: "uppercase" }}>Faltan para Puglia</div>
+        <div style={{ display: "flex", justifyContent: "center", gap: "16px", marginTop: "12px" }}>
+          <div><div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "42px", color: "#FF6B35", fontWeight: 600, lineHeight: 1 }}>{days}</div><div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "11px", color: "#AAA", fontWeight: 700 }}>días</div></div>
+          <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "42px", color: "#DDD", fontWeight: 300, lineHeight: 1 }}>:</div>
+          <div><div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "42px", color: "#FF6B35", fontWeight: 600, lineHeight: 1 }}>{hours}</div><div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "11px", color: "#AAA", fontWeight: 700 }}>horas</div></div>
+        </div>
+        <div style={{ fontFamily: "'Nunito',sans-serif", fontSize: "13px", color: "#CCC", fontWeight: 700, marginTop: "10px" }}>☀️ Jul 23 → Aug 1, 2026 · Monopoli 🇮🇹</div>
+      </div>
+    </div>
+  );
+}
+
+export default function App(){const[loggedIn,setLoggedIn]=useState(false);const[tab,setTab]=useState("planner");const[fadeIn,setFadeIn]=useState(true);const switchTab=(id)=>{setFadeIn(false);setTimeout(()=>{setTab(id);setFadeIn(true);window.scrollTo({top:0,behavior:"smooth"});},150);};if(!loggedIn)return <LoginScreen onLogin={()=>setLoggedIn(true)}/>;return(<div style={{minHeight:"100vh",background:"#F0F7FF",fontFamily:"'Nunito',sans-serif"}}><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/><style>{`*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}body{background:#F0F7FF}.bottom-nav{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);border-top:2px solid #E8E8E8;display:flex;justify-content:space-around;padding:6px 4px env(safe-area-inset-bottom,14px)}.bottom-nav button{display:flex;flex-direction:column;align-items:center;gap:1px;background:none;border:none;color:#AAA;font-family:'Nunito',sans-serif;font-size:8px;font-weight:800;cursor:pointer;padding:5px 2px;border-radius:10px;transition:all 0.2s;min-width:42px}.bottom-nav button.active{color:#FF6B35;background:#FF6B3510}.bottom-nav .nav-icon{font-size:22px}.content{max-width:600px;margin:0 auto;padding:0 16px 100px;transition:all 0.3s}.content.fade-out{opacity:0;transform:translateY(8px)}`}</style><HeroSection/><Countdown/><div className={"content"+(fadeIn?"":" fade-out")}>{tab==="planner"&&<DailyPlannerTab/>}{tab==="live"&&<LiveCamsTab/>}{tab==="pics"&&<PicturesTab/>}{tab==="trullo"&&<TrulloTab/>}{tab==="restrepo"&&<FamilyTab family="restrepo"/>}{tab==="ricardo"&&<FamilyTab family="ricardo"/>}</div><FloatingChat/><nav className="bottom-nav">{TABS.map(t=>(<button key={t.id} className={tab===t.id?"active":""} onClick={()=>switchTab(t.id)}><span className="nav-icon">{t.icon}</span>{t.label}</button>))}</nav><div style={{textAlign:"center",padding:"20px 16px 100px",fontFamily:"'Nunito',sans-serif",fontSize:"13px",color:"#CCC",fontWeight:700}}>☀️ Puglia 2026 · Restrepo × Ricardo · Made with 🍕</div></div>);}
