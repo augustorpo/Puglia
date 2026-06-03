@@ -46,9 +46,9 @@ ITINERARY (CURRENT — this is the source of truth):
 - Day 7 (Wed Jul 29): Alberobello — UNESCO trulli, Rione Monti, Trullo Sovrano (35 min drive). Scenic route via Valle d'Itria.
 - Day 8 (Thu Jul 30): Ostuni — the White City, Gothic Cathedral, olive oil capital (45 min drive).
 - Day 9 (Fri Jul 31): Lecce — Florence of the South, Baroque architecture (1h 30min) OR extra beach/burrata day.
-- Day 10 (Sat Aug 1): Departure. Ricardo: BRI 11:20AM → Rome → Miami 8:25PM. Restrepo: BRI → Madrid (TBD), then AA69 Aug 2 12:20PM → Miami 3:20PM.
+- Day 10 (Sat Aug 1): Departure. Ricardo: BRI 11:20AM → Rome → Miami 8:25PM (ITA). Restrepo: Ryanair FR2761 BRI→Madrid (ref E752FR, seats 02C/D/E/F), then AA69 Aug 2 12:20PM → Miami 3:20PM.
 
-BOOKINGS CONFIRMED: Trullo ✅, Flights ✅, Car ✅, Catamaran Jul 27 ✅. Pending: Restrepo BRI→Madrid flight.
+BOOKINGS CONFIRMED: Trullo ✅, Flights ✅, Car ✅, Catamaran Jul 27 ✅, Ryanair BRI→Madrid Aug 1 (FR2761, ref E752FR, seats 02C/D/E/F) ✅. All booked!
 
 IMPORTANT: You have SHARED MEMORY from Redis. You see messages from ALL trip members. Use this to cross-reference and roast. If Titi complained about something, bring it up when Augusto asks. Reference their real lives — neighbors, BBQs, TechInsider, the kids' activities, university days.
 
