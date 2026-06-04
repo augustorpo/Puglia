@@ -434,8 +434,8 @@ function PicturesTab() {
       </div>
       {pics.map((p, i) => (
         <div key={i} style={{ background: "white", borderRadius: "22px", overflow: "hidden", boxShadow: "0 4px 15px rgba(0,0,0,0.08)", border: "1px solid #F0F0F0" }}>
-          <div style={{ position: "relative", width: "100%", paddingBottom: "75%", background: "#F0F0F0" }}>
-            <img src={p.src} alt={p.caption} style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover" }} />
+          <div style={{ width: "100%", background: "#F0F0F0" }}>
+            <img src={p.src} alt={p.caption} style={{ width: "100%", height: "auto", display: "block" }} />
           </div>
           <div style={{ padding: "16px 20px" }}>
             <div style={{ fontFamily: "'Fredoka',sans-serif", fontSize: "18px", color: "#1A1A2E", fontWeight: 600, lineHeight: 1.4 }}>{p.caption}</div>
