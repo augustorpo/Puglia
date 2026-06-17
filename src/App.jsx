@@ -68,6 +68,99 @@ function HeroSection(){return(<div><PhotoBg src="https://cdn.krossbooking.com/he
 
 function TrulloCard(){return(<div style={{background:"linear-gradient(135deg,#FF6B35,#FF9F1C)",borderRadius:"24px",padding:"28px 24px",color:"white",position:"relative",overflow:"hidden"}}><div style={{position:"absolute",top:"-20px",right:"-10px",fontSize:"100px",opacity:0.15,transform:"rotate(10deg)"}}>🏡</div><div style={{position:"relative",zIndex:2}}><div style={{fontFamily:"'Fredoka',sans-serif",fontSize:"13px",letterSpacing:"2px",textTransform:"uppercase",opacity:0.85,fontWeight:500}}>🏡 HOME BASE</div><div style={{fontFamily:"'Fredoka',sans-serif",fontSize:"24px",fontWeight:600,marginTop:"6px",lineHeight:1.2}}>{TRULLO.name}</div><div style={{fontFamily:"'Nunito',sans-serif",fontSize:"15px",opacity:0.9,marginTop:"4px"}}>{TRULLO.location}</div><div style={{display:"flex",flexWrap:"wrap",gap:"8px",marginTop:"16px"}}>{TRULLO.features.map((f,i)=>(<span key={i} style={{background:"rgba(255,255,255,0.2)",borderRadius:"20px",padding:"5px 14px",fontSize:"13px",fontFamily:"'Nunito',sans-serif",fontWeight:600}}>{f}</span>))}</div><div style={{display:"flex",gap:"16px",marginTop:"14px",fontFamily:"'Nunito',sans-serif",fontSize:"14px",fontWeight:700}}><span>💶 {TRULLO.cost}</span><span>🌙 {TRULLO.nights}</span></div></div></div>);}
 
+
+const DESTINATIONS = [
+  { name: "Monopoli", sub: "🏡 Home Base", lat: 40.9497, lng: 17.2967, color: "#FF6B35", days: "All days", drive: "", isHome: true },
+  { name: "Polignano a Mare", sub: "Day 4 · Cliffs & Old Town", lat: 40.9946, lng: 17.2199, color: "#F77F00", days: "Sun Jul 26", drive: "15 min" },
+  { name: "Alberobello", sub: "Day 7 · UNESCO Trulli", lat: 40.7846, lng: 17.2375, color: "#606C38", days: "Wed Jul 29", drive: "35 min" },
+  { name: "Matera", sub: "Day 6 · Cave City", lat: 40.6664, lng: 16.6043, color: "#9B2226", days: "Tue Jul 28", drive: "1h 20 min" },
+  { name: "Ostuni", sub: "Day 8 · White City", lat: 40.7299, lng: 17.5771, color: "#E9C46A", days: "Thu Jul 30", drive: "45 min" },
+  { name: "Lecce", sub: "Day 9 · Baroque City", lat: 40.3516, lng: 18.1718, color: "#E76F51", days: "Fri Jul 31", drive: "1h 30 min" },
+  { name: "Pescoluse", sub: "Day 3 option · Maldives of Salento", lat: 39.8436, lng: 18.2803, color: "#20B2AA", days: "Sat Jul 25", drive: "2h" },
+];
+
+function PugliaMap() {
+  const mapRef = useRef(null);
+  const mapInstance = useRef(null);
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    // Wait for Leaflet to be available
+    const tryInit = () => {
+      if (!window.L || !mapRef.current || mapInstance.current) return;
+      const L = window.L;
+      const map = L.map(mapRef.current, {
+        center: [40.82, 17.1], zoom: 9,
+        zoomControl: false, attributionControl: false, scrollWheelZoom: false
+      });
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 18, crossOrigin: true }).addTo(map);
+      L.control.zoom({ position: "topright" }).addTo(map);
+
+      const home = DESTINATIONS[0];
+      DESTINATIONS.filter(d => !d.isHome).forEach((dest) => {
+        L.polyline([[home.lat, home.lng], [dest.lat, dest.lng]], {
+          color: dest.color, weight: 2, opacity: 0.4, dashArray: "6, 8"
+        }).addTo(map);
+      });
+
+      DESTINATIONS.forEach((dest) => {
+        const size = dest.isHome ? 20 : 14;
+        const icon = L.divIcon({
+          className: "puglia-marker",
+          html: '<div style="width:'+size+'px;height:'+size+'px;background:'+dest.color+';border:3px solid white;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></div>',
+          iconSize: [size, size], iconAnchor: [size/2, size/2]
+        });
+        const marker = L.marker([dest.lat, dest.lng], { icon }).addTo(map);
+        const driveHtml = dest.drive ? '<div style="font-size:11px;color:#888;margin-top:2px;">🚗 '+dest.drive+' from Monopoli</div>' : '';
+        marker.bindTooltip(
+          '<div style="text-align:center;font-family:Nunito,sans-serif;min-width:100px;"><div style="font-size:14px;font-weight:800;color:#1A1A2E;">'+dest.name+'</div><div style="font-size:11px;color:'+dest.color+';font-weight:700;">'+dest.sub+'</div>'+driveHtml+'</div>',
+          { permanent: dest.isHome, direction: "top", offset: [0, -12], className: "puglia-tooltip" }
+        );
+      });
+
+      map.fitBounds(DESTINATIONS.map(d => [d.lat, d.lng]), { padding: [40, 40], maxZoom: 10 });
+      mapInstance.current = map;
+      setReady(true);
+      // Aggressively fix tile rendering
+      [100, 300, 600, 1000, 2000].forEach(ms => {
+        setTimeout(() => {
+          if (mapInstance.current) {
+            mapInstance.current.invalidateSize();
+            mapInstance.current.fitBounds(DESTINATIONS.map(d => [d.lat, d.lng]), { padding: [40, 40], maxZoom: 10 });
+          }
+        }, ms);
+      });
+    };
+
+    // Try immediately, then retry a few times
+    tryInit();
+    const t1 = setTimeout(tryInit, 500);
+    const t2 = setTimeout(tryInit, 1500);
+    const t3 = setTimeout(tryInit, 3000);
+
+    return () => {
+      clearTimeout(t1); clearTimeout(t2); clearTimeout(t3);
+      if (mapInstance.current) { mapInstance.current.remove(); mapInstance.current = null; }
+    };
+  }, []);
+
+  return (
+    <div style={{ borderRadius: "22px", overflow: "hidden", boxShadow: "0 4px 20px rgba(0,0,0,0.08)", border: "1px solid #E8E8E8", background: "white" }}>
+      <style>{`.puglia-tooltip{background:white!important;color:#1A1A2E!important;border:none!important;border-radius:12px!important;padding:8px 14px!important;box-shadow:0 4px 20px rgba(0,0,0,0.12)!important;}.puglia-tooltip .leaflet-tooltip-tip{display:none!important;}.puglia-marker{background:transparent!important;border:none!important;}.leaflet-control-zoom a{background:white!important;color:#333!important;border-color:#E8E8E8!important;border-radius:8px!important;}`}</style>
+      <div ref={mapRef} style={{ width: "100%", height: "320px", background: "#E8F4F8" }} />
+      <div style={{ padding: "14px 18px", display: "flex", flexWrap: "wrap", gap: "8px", justifyContent: "center" }}>
+        {DESTINATIONS.map((d, i) => (
+          <div key={i} style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "12px", fontFamily: "'Nunito',sans-serif", fontWeight: 700, color: "#555" }}>
+            <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: d.color, border: d.isHome ? "2px solid #333" : "none" }} />
+            <span>{d.name}</span>
+            {d.drive && <span style={{ color: "#AAA" }}>· 🚗 {d.drive}</span>}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function DayCard({d, expanded, onToggle, onEdit, onSwap, swapMode, swapFrom, index}) {
   const photo = PHOTOS[DAY_PHOTOS[d.short]] || PHOTOS.hero;
   const isSwapTarget = swapMode && swapFrom !== null && swapFrom !== index;
