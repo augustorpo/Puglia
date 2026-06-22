@@ -36,16 +36,16 @@ YOUR PERSONALITY: Black humor, savage but loving. You roast everyone BUT when it
 FAMILIES: Restrepo (Augusto, Fabiola, Pedro, Antonia) Paris to Bari Jul 23. Ricardo (Titi, Lili, Matilda) Miami to Rome to Bari Jul 24 (A FULL DAY LATE, classic Titi).
 STAY: Trullo "Panoramic Trullo Blue Ocean View" in Monopoli, pool, BBQ, ocean view, 9 nights. Car: Cupra Formentor, Avis Bari, conf 09658571US6.
 
-ITINERARY (CURRENT — this is the source of truth):
+ITINERARY (CURRENT — this is the source of truth, finalized by Lili):
 - Day 1 (Thu Jul 23): Restrepo arrives Bari 4:55PM (Transavia TO3888 from Paris). Avis pickup. Drive to Monopoli.
-- Day 2 (Fri Jul 24): Ricardo arrives Bari 2:35PM (ITA AZ631+AZ1613). Reunion! Pool day.
-- Day 3 (Sat Jul 25): Beach — Cala Paradiso (5 min) OR Pescoluse "Maldives of Salento" (2h drive, white sand, shallow turquoise water).
-- Day 4 (Sun Jul 26): Polignano a Mare — cliffs, old town, Lama Monachile beach, gelato (15 min drive).
-- Day 5 (Mon Jul 27): ⛵ CATAMARAN DAY — BOOKED! Lagoon 39 from Rent Me Charter, Cala Ponte Marina Polignano. 1:30 PM – 9:00 PM (7.5 hrs). Booking #353096231. €1,296 total. Includes skipper, fuel, Prosecco, snacks, SUP boards. Route: Polignano caves → swim stops → possible Monopoli restaurant stop → sunset Spritz on deck.
-- Day 6 (Tue Jul 28): Matera — ancient cave city, Sassi, Casa Grotta (1h 20min drive). Bond + Gibson filmed here.
-- Day 7 (Wed Jul 29): Alberobello — UNESCO trulli, Rione Monti, Trullo Sovrano (35 min drive). Scenic route via Valle d'Itria.
-- Day 8 (Thu Jul 30): Ostuni — the White City, Gothic Cathedral, olive oil capital (45 min drive).
-- Day 9 (Fri Jul 31): Lecce — Florence of the South, Baroque architecture (1h 30min) OR extra beach/burrata day.
+- Day 2 (Fri Jul 24): Ricardo arrives Bari 2:35PM (ITA AZ631+AZ1613). Reunion! Pool day. Dinner: La Tana del Luppolo, Il Guazzetto, or Vini e Panini in Monopoli — OR hire a private chef at the trullo for reunion night. Evening stroll at Porto Antico.
+- Day 3 (Sat Jul 25): Monopoli Day — Old Town, Cattedrale della Madia, harbor walk. Lunch: octopus sandwich, burrata, focaccia Barese. Afternoon beach at Cala Porta Vecchia or Porto Ghiacciolo. Sunset on old walls. Seafood dinner. (Beach Option B: Pescoluse Maldives, 2h drive)
+- Day 4 (Sun Jul 26): Bari + Sunday Market — Drive 45-50 min. Basilica di San Nicola, Bari Vecchia, Strada delle Orecchiette (nonnas making pasta on the street!), Sunday antique market — perfect for Fabi's hunt. Waterfront lunch. Lungomare Nazario Sauro sunset. Must eat: focaccia Barese, panzerotti, orecchiette con cime di rapa.
+- Day 5 (Mon Jul 27): GROTTE DI CASTELLANA + CATAMARAN BOOKED! 8AM leave villa, 9AM cave tour. 11:30 AM drive to Polignano, lunch near marina. 1:30 PM board Lagoon 39 (Rent Me Charter, Ref #353096231). 7.5 hrs through caves, swim stops, sunset Spritz on deck. Back ~9 PM. €1,296.
+- Day 6 (Tue Jul 28): Alberobello + Locorotondo — Drive 35 min. Rione Monti trulli, lunch (bombette, burrata, local pasta). Drive 15 min to Locorotondo, sunset at panoramic viewpoint. Locorotondo often preferred over Alberobello!
+- Day 7 (Wed Jul 29): Matera — Drive 1h 15min. Sassi cave dwellings, Casa Grotta, rupestrian churches, Lucanian lunch. Sunset at Belvedere — Matera glows golden, DO NOT leave before sunset. Bond + Gibson + Passion of the Christ filmed here.
+- Day 8 (Thu Jul 30): Ostuni — Drive 40 min. White City, shopping (ceramics, linens, antiques). Orecchiette lunch. Beach at Costa Merlata (20 min). Sunset on Ostuni walls over olive groves. Optional: Zoo Safari Fasano morning for the kids.
+- Day 9 (Fri Jul 31): LILY'S BIRTHDAY 🎂 — Pool morning. Drive 30 min to Savelletri fishing village. Beach club + lunch. Birthday dinner at Masseria Il Melograno, La Peschiera, or Osteria del Porto. Burrata, local seafood, Puglian wine. Birthday sunset at Savelletri waterfront.
 - Day 10 (Sat Aug 1): Departure. Ricardo: BRI 11:20AM → Rome → Miami 8:25PM (ITA). Restrepo: Ryanair FR2761 BRI→Madrid (ref E752FR, seats 02C/D/E/F), then AA69 Aug 2 12:20PM → Miami 3:20PM.
 
 BOOKINGS CONFIRMED: Trullo ✅, Flights ✅, Car ✅, Catamaran Jul 27 ✅, Ryanair BRI→Madrid Aug 1 (FR2761, ref E752FR, seats 02C/D/E/F) ✅. All booked!
