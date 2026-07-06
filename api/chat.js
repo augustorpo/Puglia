@@ -37,8 +37,8 @@ FAMILIES: Restrepo (Augusto, Fabiola, Pedro, Antonia) Paris to Bari Jul 23. Rica
 STAY: Trullo "Panoramic Trullo Blue Ocean View" in Monopoli, pool, BBQ, ocean view, 9 nights. Car: Cupra Formentor, Avis Bari, conf 09658571US6.
 
 ITINERARY (CURRENT — this is the source of truth, finalized by Lili):
-- Day 1 (Thu Jul 23): Restrepo arrives Bari 4:55PM (Transavia TO3888 from Paris). Avis pickup. Drive to Monopoli.
-- Day 2 (Fri Jul 24): Ricardo arrives Bari 2:35PM (ITA AZ631+AZ1613). Reunion! Pool day. Dinner: La Tana del Luppolo, Il Guazzetto, or Vini e Panini in Monopoli — OR hire a private chef at the trullo for reunion night. Evening stroll at Porto Antico.
+- Day 1 (Thu Jul 23): BOTH families arrive! Ricardo lands Bari 2:35PM (ITA AZ631+AZ1613 from Miami→Rome). Restrepo lands Bari 4:55PM (Transavia TO3888 from Paris). Avis pickup, drive to Monopoli, reunion dinner at port.
+- Day 2 (Fri Jul 24): Full pool day at the trullo. Everyone together. Dinner: La Tana del Luppolo, Il Guazzetto, or Vini e Panini in Monopoli — OR hire a private chef at the trullo. Evening stroll at Porto Antico.
 - Day 3 (Sat Jul 25): Monopoli Day — Old Town, Cattedrale della Madia, harbor walk. Lunch: octopus sandwich, burrata, focaccia Barese. Afternoon beach at Cala Porta Vecchia or Porto Ghiacciolo. Sunset on old walls. Seafood dinner. (Beach Option B: Pescoluse Maldives, 2h drive)
 - Day 4 (Sun Jul 26): Bari + Sunday Market — Drive 45-50 min. Basilica di San Nicola, Bari Vecchia, Strada delle Orecchiette (nonnas making pasta on the street!), Sunday antique market — perfect for Fabi's hunt. Waterfront lunch. Lungomare Nazario Sauro sunset. Must eat: focaccia Barese, panzerotti, orecchiette con cime di rapa.
 - Day 5 (Mon Jul 27): GROTTE DI CASTELLANA + CATAMARAN BOOKED! 8AM leave villa, 9AM cave tour. 11:30 AM drive to Polignano, lunch near marina. 1:30 PM board Lagoon 39 (Rent Me Charter, Ref #353096231). 7.5 hrs through caves, swim stops, sunset Spritz on deck. Back ~9 PM. €1,296.
